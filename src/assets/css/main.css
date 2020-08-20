@@ -1,0 +1,130 @@
+@font-face {
+    font-family: "Airbnb";
+    src: url(../fonts/AirbnbCerealMedium.ttf);
+}  
+
+* {
+    margin: 0;
+    padding: 0;
+    font-family: "Airbnb";
+}  
+
+.header {
+    background: #ffffff;
+    opacity: 0.98;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.25);
+}
+  
+.navigation {
+    border-right: 1px solid rgb(218, 218, 218);
+    height: 80px;
+    padding: 20px 45px;
+}
+  
+.navigation img {
+    width: 30px;
+}
+  
+.side-cart {
+    height: 80px;
+    padding: 20px 0;
+}
+  
+.side-cart span.badge {
+    background: #57cad5;
+    border-radius: 100%;
+}
+
+/* Main Content */
+.detail-sidenav {
+    background: #ffffff;
+    box-shadow: 2px 0px 0px 0px rgba(0, 0, 0, 0.11);
+    width: 50px;
+    /* height: 750px; */
+}
+
+.detail-sidenav img {
+    width: 30px;
+    margin: 20px 20px;
+    margin-left: 30px;
+}
+
+.main-content {
+    padding: 20px;
+    background: rgba(190, 195, 202, 0.3);
+}
+
+.main-content .main-food {
+    margin: 10px 0;
+}
+
+.main-content .main-food img {
+    width: 300px;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 10px 10px 0 0;
+}
+
+.main-content .main-food p {
+    font-size: 20px;
+    margin-top: 5px;
+}
+
+.main-content .main-food h3 {
+    font-weight: bold;
+    font-size: 24px;
+}
+
+.content-cart {
+    background: #ffffff;
+    box-shadow: -2px 0px 0px 0px rgba(0, 0, 0, 0.11);
+    border-top: 1px solid rgb(206, 206, 206);
+}
+
+.content-cart p {
+    color: rgb(200, 200, 200);
+}
+
+/* Modal Add */
+.form-control, .custom-select {
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.25);
+}
+
+input#input-default.price.form-control {
+    width: 75%;
+}
+
+.custom-select {
+    width: 50%;
+    float: left;
+}
+
+button.btn-outline-danger {
+    width: 25%;
+    display: inline-block;
+    margin-left: 220px;
+    background: #f24f8a;
+    border: 1px solid #f24f8a;
+    transition: 0.8s ease-in-out;
+    color: #ffffff;
+}
+button.btn-outline-danger:hover {
+    border: 1px solid #dd3f79;
+    background-color: #dd3f79;
+}
+
+button.btn-outline-warning {
+    width: 25%;
+    display: inline-block;
+    margin-left: 10px;
+    background: #57cad5;
+    border: 1px solid #57cad5;
+    transition: 0.8s ease-in-out;
+    color: #ffffff;
+}
+
+button.btn-outline-warning:hover {
+    border: 1px solid #2fafbb;
+    background-color: #2fafbb;
+}
+/* End Modal Add */
