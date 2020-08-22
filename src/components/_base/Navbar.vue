@@ -20,12 +20,23 @@
         <b-col cols="12" md="4" sm="4" class="side-cart">
           <h4 class="text-center">
             Cart
-            <span class="badge badge-secondary">0</span>
+            <span class="badge badge-secondary">{{count}}</span>
           </h4>
         </b-col>
       </b-row>
     </b-container>
   </div>
 </template>
+
+<script>
+export default {
+  name: 'Navbar',
+  data() {
+    return {
+      count: 0
+    }
+  }
+}
+</script>
 
 <style scoped src="../../assets/css/main.css"></style>

@@ -1,20 +1,20 @@
 <template>
   <div class="home">
     <Navbar />
-    <MainContent />
+    <ProductList />
   </div>
 </template>
 
 <script>
 // @ is an alias to /src
 import Navbar from '../components/_base/Navbar'
-import MainContent from '../components/_base/MainContent'
+import ProductList from '../components/_module/ProductList'
 
 export default {
   name: 'Home',
   components: {
     Navbar,
-    MainContent
+    ProductList
   }
 }
 </script>

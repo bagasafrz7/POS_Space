@@ -13,57 +13,38 @@
           </nav>
         </b-col>
         <b-col cols="12" sm="7" md="7" class="main-content">
+          <b-dropdown text="Filter" variant="primary" class="mb-1">
+            <b-dropdown-item href="#">Action</b-dropdown-item>
+            <b-dropdown-item href="#">Another action</b-dropdown-item>
+            <b-dropdown-item href="#">Something else here</b-dropdown-item>
+          </b-dropdown>
           <b-row>
             <b-col cols="6" sm="6" md="4" class="main-food">
               <img alt="Img 1" src="../../assets/img/food-menu/1_min.jpg" class="img-fluid" />
-              <p>Espresso</p>
-              <h3>Rp. 10.000</h3>
-            </b-col>
-            <b-col cols="6" sm="6" md="4" class="main-food">
-              <img alt="Img 1" src="../../assets/img/food-menu/2_min.jpg" class="img-fluid" />
-              <p>Coffee Latte</p>
-              <h3>Rp. 15.000</h3>
-            </b-col>
-            <b-col cols="6" sm="6" md="4" class="main-food">
-              <img alt="Img 1" src="../../assets/img/food-menu/3_min.jpg" class="img-fluid" />
-              <p>Cappucino</p>
-              <h3>Rp. 5.000</h3>
-            </b-col>
-            <b-col cols="6" sm="6" md="4" class="main-food">
-              <img alt="Img 1" src="../../assets/img/food-menu/4_min.jpg" class="img-fluid" />
-              <p>Red Velvet Latte</p>
-              <h3>Rp. 33.000</h3>
-            </b-col>
-            <b-col cols="6" sm="6" md="4" class="main-food">
-              <img alt="Img 1" src="../../assets/img/food-menu/5_min.jpg" class="img-fluid" />
-              <p>Choco Rhum</p>
-              <h3>Rp. 28.000</h3>
-            </b-col>
-            <b-col cols="6" sm="6" md="4" class="main-food">
-              <img alt="Img 1" src="../../assets/img/food-menu/6_min.jpg" class="img-fluid" />
-              <p>Black Forest</p>
-              <h3>Rp. 30.000</h3>
-            </b-col>
-            <b-col cols="6" sm="6" md="4" class="main-food">
-              <img alt="Img 1" src="../../assets/img/food-menu/7_min.jpg" class="img-fluid" />
-              <p>Chicken Katsu Dabu-dabu</p>
-              <h3>Rp. 60.000</h3>
-            </b-col>
-            <b-col cols="6" sm="6" md="4" class="main-food">
-              <img alt="Img 1" src="../../assets/img/food-menu/8_min.jpg" class="img-fluid" />
-              <p>Salmon Truffle Teriyaki</p>
-              <h3>Rp. 60.000</h3>
-            </b-col>
-            <b-col cols="6" sm="6" md="4" class="main-food">
-              <img alt="Img 1" src="../../assets/img/food-menu/9_min.jpg" class="img-fluid" />
-              <p>Wiener Schnitzel</p>
-              <h3>Rp. 69.000</h3>
+              <b-row>
+                <b-col cols="9">
+                  <p>Product Name</p>
+                  <h3>Product Harga</h3>
+                  <b-button class="mt-1" variant="success">Update</b-button>
+                  <b-button class="mx-1 mt-1" variant="danger">Delete</b-button>
+                </b-col>
+                <b-col cols="3">
+                  <b-button class="mt-2" variant="primary">+</b-button>
+                </b-col>
+              </b-row>
             </b-col>
           </b-row>
         </b-col>
         <b-col cols="12" sm="4" md="4" class="content-cart">
           <b-row>
-            <b-col cols="12" sm="12" md="12" class="main-cart text-center">
+            <b-col
+              cols="12"
+              sm="12"
+              md="12"
+              class="main-cart text-center"
+              v-for="(item, index) in product"
+              :key="index"
+            >
               <img
                 alt="Restorant logo"
                 src="../../assets/img/icon/food-and-restorant.png"
@@ -103,6 +84,8 @@
 
 <script>
 export default {
+  name: 'Axios',
+  components: {},
   methods: {
     showModal() {
       this.$refs['my-modal'].show()
