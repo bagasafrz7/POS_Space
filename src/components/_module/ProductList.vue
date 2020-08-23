@@ -4,6 +4,9 @@
       <b-row>
         <b-col cols="12" sm="1" md="1" class="detail-sidenav">
           <nav class="nav">
+            <router-link to="/home-select">
+              <img alt="History logo" src="../../assets/img/icon/fork.png" />
+            </router-link>
             <router-link to="/history">
               <img alt="History logo" src="../../assets/img/icon/clipboard.png" />
             </router-link>
@@ -65,7 +68,7 @@
                 src="../../assets/img/icon/food-and-restorant.png"
                 width="200"
               />
-              <h4>Your cart is empty</h4>
+              <h4 v-show="!isUpdate">Your cart is empty</h4>
               <p>Please add some items from the menu</p>
             </b-col>
           </b-row>
@@ -153,7 +156,7 @@ export default {
   data() {
     return {
       cart: [],
-      page: 2,
+      page: 1,
       limit: 9,
       sort: '',
       products: [],
@@ -246,7 +249,7 @@ export default {
     deleteProduct(data) {
       console.log(data.product_id)
       axios
-        .delete(`http://127.0.0.1:3001/product/${this.product_id}`)
+        .delete(`http://127.0.0.1:3001/product/${data.product_id}`)
         .then((response) => {
           console.log(response)
           this.alert = true
