@@ -2,20 +2,7 @@
   <div class="side-bar">
     <b-container fluid>
       <b-row>
-        <b-col cols="12" sm="1" md="1" class="detail-sidenav">
-          <nav class="nav">
-            <router-link to="/home-select">
-              <img alt="History logo" src="../../assets/img/icon/fork.png" />
-            </router-link>
-            <router-link to="/history">
-              <img alt="History logo" src="../../assets/img/icon/clipboard.png" />
-            </router-link>
-            <router-link to>
-              <img alt="History logo" src="../../assets/img/icon/add.png" @click="showModal" />
-            </router-link>
-          </nav>
-        </b-col>
-        <b-col cols="12" sm="7" md="7" class="main-content">
+        <b-col cols="12" sm="12" md="12">
           <b-row>
             <b-col cols="8">
               <b-alert v-bind:show="alert" variant="success">{{inMsg}}</b-alert>
@@ -57,19 +44,6 @@
                   <b-button class="mt-2" variant="primary" v-on:click="increment()">+</b-button>
                 </b-col>
               </b-row>
-            </b-col>
-          </b-row>
-        </b-col>
-        <b-col cols="12" sm="4" md="4" class="content-cart">
-          <b-row class="text-center">
-            <b-col cols="12" sm="12" md="12">
-              <img
-                alt="Restorant logo"
-                src="../../assets/img/icon/food-and-restorant.png"
-                width="200"
-              />
-              <h4 v-show="!isUpdate">Your cart is empty</h4>
-              <p>Please add some items from the menu</p>
             </b-col>
           </b-row>
         </b-col>
@@ -150,13 +124,14 @@
 
 <script>
 import axios from 'axios'
+
 export default {
   name: 'Card',
   components: {},
   data() {
     return {
       cart: [],
-      page: 1,
+      page: 2,
       limit: 9,
       sort: '',
       products: [],
@@ -214,6 +189,7 @@ export default {
           console.log(response)
           this.alert = true
           this.inMsg = response.data.msg
+          this.getProduct()
         })
         .catch((error) => {
           console.log(error)
@@ -240,6 +216,7 @@ export default {
           console.log(response)
           this.alert = true
           this.inMsg = response.data.msg
+          this.getProduct()
         })
         .catch((error) => {
           console.log(error)
@@ -254,6 +231,7 @@ export default {
           console.log(response)
           this.alert = true
           this.inMsg = response.data.msg
+          this.getProduct()
         })
         .catch((error) => {
           console.log(error)
