@@ -24,11 +24,20 @@
               v-for="(item, index) in products"
               :key="index"
             >
-              <img alt="Img 1" src="../../assets/img/food-menu/1_min.jpg" class="img-fluid" />
+              <img alt="Img 1" src="../../assets/img/food-menu/3_min.jpg" class="img-fluid" />
               <b-row>
-                <b-col cols="9">
+                <b-col cols="8">
                   <p>{{item.product_name}}</p>
                   <h3>{{item.product_harga}}</h3>
+                </b-col>
+                <b-col cols="4" class="img-cart">
+                  <b-button class="mt-2 mx-2" variant="outline-info" v-on:click="addToCart(item)">
+                    <img src="../../assets/img/icon/cart.png" alt />
+                  </b-button>
+                </b-col>
+              </b-row>
+              <b-row>
+                <b-col cols="12">
                   <b-button
                     @click="setProduct(item)"
                     class="mt-1 btn-access btn-update"
@@ -40,10 +49,20 @@
                     variant="danger"
                   >Delete</b-button>
                 </b-col>
-                <b-col cols="2">
-                  <b-button class="mt-2" variant="primary" v-on:click="increment()">+</b-button>
-                </b-col>
               </b-row>
+            </b-col>
+          </b-row>
+          <b-row class="my-4">
+            <b-col>
+              <b-pagination
+                v-model="page"
+                :total-rows="totalPage"
+                :per-page="limit"
+                first-text="First"
+                prev-text="Prev"
+                next-text="Next"
+                last-text="Last"
+              ></b-pagination>
             </b-col>
           </b-row>
         </b-col>
@@ -51,7 +70,7 @@
     </b-container>
     <!-- Modal Add -->
     <div>
-      <b-modal ref="my-modal" hide-footer centered title="Add Item">
+      <b-modal ref="update-product" hide-footer centered title="Add Item">
         <div class="d-block text-center">
           <form v-on:submit.prevent="addProduct">
             <div class="form-group row">
@@ -99,16 +118,7 @@
             </div>
             <b-button class="mt-3" variant="outline-danger" block @click="hideModal">Cancel</b-button>
             <b-button
-              type="submit"
-              v-show="!isUpdate"
-              class="mt-3"
-              variant="outline-warning"
-              block
-              @click="toggleModal"
-            >Add</b-button>
-            <b-button
               type="button"
-              v-show="isUpdate"
               class="mt-3"
               variant="outline-warning"
               block
@@ -130,6 +140,9 @@ export default {
   components: {},
   data() {
     return {
+      totalPage: 100,
+      // perPage: 10,
+      // currentPage: 1,
       cart: [],
       page: 2,
       limit: 9,
@@ -144,7 +157,6 @@ export default {
       },
       alert: false,
       inMsg: '',
-      isUpdate: false,
       product_id: ''
     }
   },
@@ -162,6 +174,8 @@ export default {
     addToCart(data) {
       const setCart = {
         product_id: data.product_id,
+        product_name: data.product_name,
+        product_harga: data.product_harga,
         qty: 1
       }
       // spread operator
@@ -203,8 +217,8 @@ export default {
         product_image: data.product_image,
         product_status: data.product_status
       }
-      this.isUpdate = true
       this.product_id = data.product_id
+      this.$refs['update-product'].show()
       // console.log(data.product_id)
     },
     patchProduct() {
@@ -221,7 +235,6 @@ export default {
         .catch((error) => {
           console.log(error)
         })
-      this.isUpdate = false
     },
     deleteProduct(data) {
       console.log(data.product_id)
@@ -237,16 +250,13 @@ export default {
           console.log(error)
         })
     },
-    showModal() {
-      this.$refs['my-modal'].show()
-    },
     hideModal() {
-      this.$refs['my-modal'].hide()
+      this.$refs['update-product'].hide()
     },
     toggleModal() {
       // We pass the ID of the button that we want to return focus to
       // when the modal has hidden
-      this.$refs['my-modal'].toggle('#toggle-btn')
+      this.$refs['update-product'].toggle('#toggle-btn')
     }
   }
 }

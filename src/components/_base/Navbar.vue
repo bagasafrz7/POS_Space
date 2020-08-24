@@ -12,8 +12,10 @@
           <b-col cols="10" md="10" sm="10">
             <h2 class="text-center">Food Items</h2>
           </b-col>
-          <b-col cols="1" md="1" sm="1">
+          <b-col cols="1" md="1" sm="1" class="header-search">
             <img alt="Search logo" src="../../assets/img/icon/search.png" />
+            <a href="#" class="search-btn"></a>
+            <input type="text" class="search-txt" name="search" placeholder="Search" />
           </b-col>
         </b-row>
       </b-col>

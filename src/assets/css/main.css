@@ -21,6 +21,51 @@
     width: 100%;
 }
 
+.header .header-search {
+    position: absolute;
+	right: 0;
+	top: -5px;
+	background-repeat: no-repeat;
+	background-position: right center;
+	background-size: contain;
+	border-radius: 100px;
+    padding: 10px 20px;
+}
+
+.header .header-search:hover > .search-txt {
+	width: 200px;
+	padding-left: 20px;
+}
+
+.header .header-search:hover > .search-txt {
+    /* background: grey; */
+    border: 1px solid black;
+}
+
+.header .search-btn {
+	transition: 0.4s;
+	color: white;
+	cursor: pointer;
+}
+
+.header .search-txt {
+	border: none;
+	background: none;
+	outline: none;
+    float: left;
+    position: absolute;
+    top: 0;
+    left: -130px;
+	padding: 0;
+	color: #000;
+	font-size: 16px;
+	transition: 0.4s;
+	line-height: 40px;
+    width: 0px;
+    height: 50px;
+	border-radius: 100px;
+}
+
 .navigation {
     height: 80px;
     padding: 20px 50px;
@@ -70,6 +115,11 @@
     border-radius: 10px 10px 0 0;
 }
 
+.main-content .main-food .img-cart img {
+    width: 20px;
+    height: 20px;
+}
+
 .main-content .main-food p {
     font-size: 20px;
     margin-top: 5px;
@@ -100,6 +150,62 @@
 
 .content-cart p {
     color: rgb(200, 200, 200);
+}
+
+.detail-cart {
+    margin: 30px 0;
+}
+
+.detail-cart h5 {
+    font-size: 20px;
+    margin-left: 10px;
+    margin-bottom: 40px;
+}
+
+.detail-cart h6 {
+    font-size: 15px;
+    margin-top: 70px;
+}
+/* .detail-cart .detail-number {
+    padding: 0 20px;
+} */
+.detail-cart img {
+    width: 100px;
+    height: 100px;
+    border-radius: 5px;
+}
+
+.detail-cart .btn {
+    border-radius: 0;
+    font-size: 15px;
+    font-weight: bold;
+    color: #82de3a;
+    border: 1px solid #82de3a;
+}
+
+.detail-cart .minus {
+    background: rgba(130, 222, 58, 0.2);
+    width: 35px;
+    height: 35px;
+}
+
+.detail-cart .number {
+    background: #ffffff;
+    width: 35px;
+    height: 35px;
+    color: #82de3a;
+    border: 1px solid #82de3a;
+    text-align: center;
+}
+
+.detail-cart input {
+    padding-bottom: 2px;
+}
+
+.detail-cart .plus {
+    background: rgba(130, 222, 58, 0.2);
+    width: 35px;
+    height: 35px;
 }
 
 /* Modal Add */
