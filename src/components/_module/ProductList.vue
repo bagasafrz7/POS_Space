@@ -1,73 +1,115 @@
 <template>
   <div class="side-bar">
-    <b-container fluid>
-      <b-row>
-        <b-col cols="12" sm="12" md="12">
-          <b-row>
-            <b-col cols="8">
-              <b-alert v-bind:show="alert" variant="success">{{inMsg}}</b-alert>
+    <!-- <b-container fluid> -->
+    <div class="side-cart">
+      <h4 class="text-center">
+        Cart
+        <span class="badge badge-secondary">{{totalCart}}</span>
+      </h4>
+    </div>
+    <b-row>
+      <b-col cols="12" sm="8" md="8" class="main-content">
+        <b-row>
+          <b-col cols="8">
+            <b-alert v-bind:show="alert" variant="success">{{inMsg}}</b-alert>
+          </b-col>
+          <b-col cols="4">
+            <b-dropdown text="Filter" right variant="primary" class="mb-1 float-right">
+              <b-dropdown-item @click="sortID()">ID</b-dropdown-item>
+              <b-dropdown-item @click="sortName()">Name</b-dropdown-item>
+              <b-dropdown-item @click="sortPrice()">Price</b-dropdown-item>
+              <b-dropdown-item @click="sortDate()">Date</b-dropdown-item>
+            </b-dropdown>
+          </b-col>
+        </b-row>
+        <b-row>
+          <b-col
+            cols="6"
+            sm="6"
+            md="4"
+            class="main-food"
+            v-for="(item, index) in products"
+            :key="index"
+          >
+            <img alt="Img 1" src="../../assets/img/food-menu/8_min.jpg" class="img-fluid" />
+            <div class="select-image text-center" v-if="checkCart(item)">
+              <img src="../../assets/img/icon/select.png" alt />
+            </div>
+            <b-row>
+              <b-col cols="8">
+                <p>{{item.product_name}}</p>
+                <h3>{{item.product_harga}}</h3>
+              </b-col>
+              <b-col cols="4" class="img-cart">
+                <b-button class="mt-2 mx-2" variant="outline-info" v-on:click="addToCart(item)">
+                  <img src="../../assets/img/icon/cart.png" alt />
+                </b-button>
+              </b-col>
+            </b-row>
+            <b-row>
+              <b-col cols="12">
+                <b-button
+                  @click="setProduct(item)"
+                  class="mt-1 btn-access btn-update"
+                  variant="success"
+                >Update</b-button>
+                <b-button
+                  @click="deleteProduct(item)"
+                  class="mt-1 btn-access btn-delete"
+                  variant="danger"
+                >Delete</b-button>
+              </b-col>
+            </b-row>
+          </b-col>
+        </b-row>
+        <b-row class="my-4">
+          <b-col>
+            <b-pagination
+              v-model="page"
+              :total-rows="totalPage"
+              :per-page="limit"
+              first-text="First"
+              prev-text="Prev"
+              next-text="Next"
+              last-text="Last"
+            ></b-pagination>
+          </b-col>
+        </b-row>
+      </b-col>
+      <b-col cols="12" sm="4" md="4" class="content-cart">
+        <b-row class="text-center">
+          <b-col cols="12" sm="12" md="12" v-show="!isCart">
+            <img
+              alt="Restorant logo"
+              src="../../assets/img/icon/food-and-restorant.png"
+              width="200"
+            />
+            <h4>Your cart is empty</h4>
+            <p>Please add some items from the menu</p>
+          </b-col>
+          <b-row
+            class="detail-cart mt-4"
+            v-show="isCart"
+            v-for="(item, index) in cart"
+            :key="index"
+          >
+            <b-col cols="3">
+              <img src="../../assets/img/food-menu/8_min.jpg" alt />
             </b-col>
-            <b-col cols="4">
-              <b-dropdown text="Filter" right variant="primary" class="mb-1 float-right">
-                <b-dropdown-item href="#">Name</b-dropdown-item>
-                <b-dropdown-item href="#">Price</b-dropdown-item>
-                <b-dropdown-item href="#">Date</b-dropdown-item>
-              </b-dropdown>
+            <b-col cols="6" class="detail-number">
+              <h5>{{item.product_name}}</h5>
+              <b-button type="button" class="btn btn-secondary minus">-</b-button>
+              <input type="text" class="number" id="number" value="1" disabled />
+              <b-button type="button" class="btn btn-secondary plus">+</b-button>
+            </b-col>
+            <b-col cols="3">
+              <h6>{{item.product_harga}}</h6>
             </b-col>
           </b-row>
-          <b-row>
-            <b-col
-              cols="6"
-              sm="6"
-              md="4"
-              class="main-food"
-              v-for="(item, index) in products"
-              :key="index"
-            >
-              <img alt="Img 1" src="../../assets/img/food-menu/3_min.jpg" class="img-fluid" />
-              <b-row>
-                <b-col cols="8">
-                  <p>{{item.product_name}}</p>
-                  <h3>{{item.product_harga}}</h3>
-                </b-col>
-                <b-col cols="4" class="img-cart">
-                  <b-button class="mt-2 mx-2" variant="outline-info" v-on:click="addToCart(item)">
-                    <img src="../../assets/img/icon/cart.png" alt />
-                  </b-button>
-                </b-col>
-              </b-row>
-              <b-row>
-                <b-col cols="12">
-                  <b-button
-                    @click="setProduct(item)"
-                    class="mt-1 btn-access btn-update"
-                    variant="success"
-                  >Update</b-button>
-                  <b-button
-                    @click="deleteProduct(item)"
-                    class="mt-1 btn-access btn-delete"
-                    variant="danger"
-                  >Delete</b-button>
-                </b-col>
-              </b-row>
-            </b-col>
-          </b-row>
-          <b-row class="my-4">
-            <b-col>
-              <b-pagination
-                v-model="page"
-                :total-rows="totalPage"
-                :per-page="limit"
-                first-text="First"
-                prev-text="Prev"
-                next-text="Next"
-                last-text="Last"
-              ></b-pagination>
-            </b-col>
-          </b-row>
-        </b-col>
-      </b-row>
-    </b-container>
+        </b-row>
+      </b-col>
+    </b-row>
+    <!-- </b-container> -->
     <!-- Modal Add -->
     <div>
       <b-modal ref="update-product" hide-footer centered title="Add Item">
@@ -144,9 +186,10 @@ export default {
       // perPage: 10,
       // currentPage: 1,
       cart: [],
-      page: 2,
+      page: 1,
       limit: 9,
       sort: '',
+      // search: '',
       products: [],
       form: {
         category_id: '',
@@ -157,19 +200,33 @@ export default {
       },
       alert: false,
       inMsg: '',
-      product_id: ''
+      product_id: '',
+      isCart: false,
+      totalCart: 0
     }
   },
   created() {
     this.getProduct()
   },
   methods: {
-    increment() {
-      console.log('Cliked')
-      this.$emit('increment', 1)
+    sortID() {
+      this.sort = 'product_id%20ASC'
+      this.getProduct()
     },
-    incrementCount(data) {
-      this.count += data
+    sortName() {
+      this.sort = 'product_name%20ASC'
+      this.getProduct()
+    },
+    sortPrice() {
+      this.sort = 'product_harga%20ASC'
+      this.getProduct()
+    },
+    sortDate() {
+      this.sort = 'product_created_at%20ASC'
+      this.getProduct()
+    },
+    checkCart(data) {
+      return this.cart.some((item) => item.product_id === data.product_id)
     },
     addToCart(data) {
       const setCart = {
@@ -180,7 +237,10 @@ export default {
       }
       // spread operator
       this.cart = [...this.cart, setCart]
+      this.isCart = true
+      this.totalCart = this.cart.length
       console.log(this.cart)
+      // console.log(this.cart.length)
     },
     getProduct() {
       axios
@@ -194,6 +254,11 @@ export default {
         .catch((error) => {
           console.log(error)
         })
+    },
+    getProductByName() {
+      axios.get(
+        `http://127.0.0.1:3001/product/search?search=${this.search}&limit=${this.limit}`
+      )
     },
     addProduct() {
       console.log(this.form)

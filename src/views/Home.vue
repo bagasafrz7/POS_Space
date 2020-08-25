@@ -5,19 +5,16 @@
         <b-col cols="12" md="8" sm="8" class="navigation">
           <Navbar />
         </b-col>
-        <b-col cols="12" md="4" sm="4" class="side-cart">
+        <!-- <b-col cols="12" md="4" sm="4" class="side-cart">
           <Cart />
-        </b-col>
+        </b-col>-->
       </b-row>
       <b-row>
         <b-col cols="12" sm="1" md="1" class="detail-sidenav">
           <Navigation />
         </b-col>
-        <b-col cols="12" sm="7" md="7" class="main-content">
+        <b-col cols="12" sm="11" md="11">
           <ProductList />
-        </b-col>
-        <b-col cols="12" sm="4" md="4" class="content-cart">
-          <ContentCart />
         </b-col>
       </b-row>
     </b-container>
@@ -27,19 +24,19 @@
 <script>
 // @ is an alias to /src
 import Navbar from '../components/_base/Navbar'
-import Cart from '../components/_base/Cart'
+// import Cart from '../components/_base/Cart'
 import ProductList from '../components/_module/ProductList'
 import Navigation from '../components/_base/Navigation'
-import ContentCart from '../components/_module/ContentCart'
+// import ContentCart from '../components/_module/ContentCart'
 
 export default {
   name: 'Home',
   components: {
     Navbar,
-    Cart,
+    // Cart,
     ProductList,
-    Navigation,
-    ContentCart
+    Navigation
+    // ContentCart
   }
 }
 </script>

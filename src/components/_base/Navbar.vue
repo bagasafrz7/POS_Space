@@ -15,7 +15,13 @@
           <b-col cols="1" md="1" sm="1" class="header-search">
             <img alt="Search logo" src="../../assets/img/icon/search.png" />
             <a href="#" class="search-btn"></a>
-            <input type="text" class="search-txt" name="search" placeholder="Search" />
+            <input
+              type="text"
+              v-model="search"
+              class="search-txt"
+              name="search"
+              placeholder="Search"
+            />
           </b-col>
         </b-row>
       </b-col>
@@ -25,12 +31,20 @@
 </template>
 
 <script>
+import axios from 'axios'
 export default {
   name: 'Navbar',
   components: {},
   data() {
     return {
-      count: 0
+      search: ''
+    }
+  },
+  methods: {
+    getProductByName() {
+      axios.get(
+        `http://127.0.0.1:3001/product/search?search=${this.search}&limit=9`
+      )
     }
   }
 }
