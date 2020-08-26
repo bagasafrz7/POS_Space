@@ -12,6 +12,9 @@
         <b-row>
           <b-col cols="8">
             <b-alert v-bind:show="alert" variant="success">{{inMsg}}</b-alert>
+            <div class="search-wrapper">
+              <input type="text" v-model="search" placeholder="Search Product" />
+            </div>
           </b-col>
           <b-col cols="4">
             <b-dropdown text="Filter" right variant="primary" class="mb-1 float-right">
@@ -28,7 +31,7 @@
             sm="6"
             md="4"
             class="main-food"
-            v-for="(item, index) in products"
+            v-for="(item, index) in products, filteredList"
             :key="index"
           >
             <img alt="Img 1" src="../../assets/img/food-menu/8_min.jpg" class="img-fluid" />
@@ -65,6 +68,7 @@
         <b-row class="my-4">
           <b-col>
             <b-pagination
+              class="pagination"
               v-model="page"
               :total-rows="totalPage"
               :per-page="limit"
@@ -99,8 +103,8 @@
             <b-col cols="6" class="detail-number">
               <h5>{{item.product_name}}</h5>
               <b-button type="button" class="btn btn-secondary minus">-</b-button>
-              <input type="text" class="number" id="number" value="1" disabled />
-              <b-button type="button" class="btn btn-secondary plus">+</b-button>
+              <input type="text" class="number" v-bind:value="count" id="number" disabled />
+              <b-button type="button" class="btn btn-secondary plus" @increment="incrementCount">+</b-button>
             </b-col>
             <b-col cols="3">
               <h6>{{item.product_harga}}</h6>
@@ -182,14 +186,16 @@ export default {
   components: {},
   data() {
     return {
-      totalPage: 100,
+      // totalPage: 100,
       // perPage: 10,
       // currentPage: 1,
+      count: 1,
       cart: [],
       page: 1,
       limit: 9,
       sort: '',
-      // search: '',
+      search: '',
+      notSearch: 'Product Not Found',
       products: [],
       form: {
         category_id: '',
@@ -228,6 +234,10 @@ export default {
     checkCart(data) {
       return this.cart.some((item) => item.product_id === data.product_id)
     },
+    incrementCount(data) {
+      this.count += data.qty
+      console.log(this.count)
+    },
     addToCart(data) {
       const setCart = {
         product_id: data.product_id,
@@ -255,11 +265,11 @@ export default {
           console.log(error)
         })
     },
-    getProductByName() {
-      axios.get(
-        `http://127.0.0.1:3001/product/search?search=${this.search}&limit=${this.limit}`
-      )
-    },
+    // getProductByName() {
+    //   axios.get(
+    //     `http://127.0.0.1:3001/product/search?search=${this.search}&limit=${this.limit}`
+    //   )
+    // },
     addProduct() {
       console.log(this.form)
       axios
@@ -322,6 +332,23 @@ export default {
       // We pass the ID of the button that we want to return focus to
       // when the modal has hidden
       this.$refs['update-product'].toggle('#toggle-btn')
+    }
+  },
+  computed: {
+    filteredList() {
+      return this.products.filter((item, index) => {
+        // if (this.search) {
+        //   this.products = this.notSearch
+        // } else {
+        return item.product_name
+          .toLowerCase()
+          .includes(this.search.toLowerCase())
+        // }
+      })
+    },
+    totalPage() {
+      console.log(this.products.length)
+      return this.products.length
     }
   }
 }
