@@ -69,9 +69,10 @@
           <b-col>
             <b-pagination
               class="pagination"
-              v-model="page"
+              v-model="currentPage"
               :total-rows="totalPage"
               :per-page="limit"
+              @change="handlePageChange"
               first-text="First"
               prev-text="Prev"
               next-text="Next"
@@ -91,26 +92,49 @@
             <h4>Your cart is empty</h4>
             <p>Please add some items from the menu</p>
           </b-col>
-          <b-row
-            class="detail-cart mt-4"
-            v-show="isCart"
-            v-for="(item, index) in cart"
-            :key="index"
-          >
+        </b-row>
+        <div class="detail-cart" v-show="isCart">
+          <b-row class="mt-4" v-for="(item, index) in cart" :key="index">
             <b-col cols="3">
               <img src="../../assets/img/food-menu/8_min.jpg" alt />
             </b-col>
             <b-col cols="6" class="detail-number">
               <h5>{{item.product_name}}</h5>
-              <b-button type="button" class="btn btn-secondary minus">-</b-button>
-              <input type="text" class="number" v-bind:value="count" id="number" disabled />
-              <b-button type="button" class="btn btn-secondary plus" @increment="incrementCount">+</b-button>
+              <b-button
+                class="btn btn-secondary minus"
+                @click="decrementCart(item)"
+                :disabled="item.qty === 1"
+              >-</b-button>
+              <input type="text" class="number" :value="item.qty" id="number" disabled />
+              <b-button class="btn btn-secondary plus" @click="incrementCart(item)">+</b-button>
             </b-col>
             <b-col cols="3">
-              <h6>{{item.product_harga}}</h6>
+              <h6>{{item.product_harga * item.qty}}</h6>
             </b-col>
           </b-row>
-        </b-row>
+          <div class="detail-cekout">
+            <b-row>
+              <b-col cols="6" md="6" sm="6" class="text-left">
+                <p>Total :</p>
+                <p>
+                  <span>*Not Including VAT</span>
+                </p>
+              </b-col>
+              <b-col cols="6" md="6" sm="6" class="text-right">
+                <p>Total Price</p>
+              </b-col>
+            </b-row>
+            <b-row class="mt-2">
+              <b-col cols="12" md="12" sm="12">
+                <b-button
+                  class="btn btn-primary btn-checkout"
+                  @click="showModal, postOrder(cart)"
+                >Checkout</b-button>
+                <b-button class="btn btn-cancel" @click="cancelCart()">Cancel</b-button>
+              </b-col>
+            </b-row>
+          </div>
+        </div>
       </b-col>
     </b-row>
     <!-- </b-container> -->
@@ -175,6 +199,44 @@
       </b-modal>
     </div>
     <!-- End Modal Add -->
+    <!-- Modal Checkout -->
+    <div class="modal-checkout">
+      <b-modal ref="checkout-modal" hide-footer centered title="Checkout">
+        <!-- <b-container fluid> -->
+        <b-row class="mb-4">
+          <b-col cols="6" md="6" sm="6" class="text-left">
+            <p>Cashier : Pevita Pearce</p>
+          </b-col>
+          <b-col cols="6" md="6" sm="6" class="text-right">
+            <p>
+              Receipt No :
+              <span>#INVOICES</span>
+            </p>
+          </b-col>
+        </b-row>
+        <b-row>
+          <b-col cols="6" md="6" sm="6" class="text-left mb-4">
+            <p>
+              Product Name
+              <span>Qty</span>
+            </p>
+            <p>Payment : Cash</p>
+          </b-col>
+          <b-col cols="6" md="6" sm="6" class="text-right">
+            <p>Product Price</p>
+          </b-col>
+        </b-row>
+        <b-row>
+          <b-col cols="12" md="12" sm="12" class="mt-4">
+            <b-button class="btn btn-secondary btn-print" block @click="hideModal">Print</b-button>
+            <p class="text-center my-2">Or</p>
+            <b-button class="btn btn-primary btn-send" block @click="hideModal">Send Email</b-button>
+          </b-col>
+        </b-row>
+        <!-- </b-container> -->
+      </b-modal>
+    </div>
+    <!-- End Checkout -->
   </div>
 </template>
 
@@ -186,11 +248,12 @@ export default {
   components: {},
   data() {
     return {
-      // totalPage: 100,
       // perPage: 10,
-      // currentPage: 1,
+      totalPage: '',
+      currentPage: 1,
       count: 1,
       cart: [],
+      cartNone: [],
       page: 1,
       limit: 9,
       sort: '',
@@ -208,7 +271,10 @@ export default {
       inMsg: '',
       product_id: '',
       isCart: false,
-      totalCart: 0
+      totalCart: 0,
+      dataDecrement: 1,
+      orders: [],
+      setOrder: []
     }
   },
   created() {
@@ -234,9 +300,25 @@ export default {
     checkCart(data) {
       return this.cart.some((item) => item.product_id === data.product_id)
     },
-    incrementCount(data) {
-      this.count += data.qty
-      console.log(this.count)
+    incrementCart(data) {
+      // console.log(data) // item yang di klik
+      // console.log(this.cart) // array
+      const incrementData = this.cart.find(
+        (item) => item.product_id === data.product_id
+      )
+      incrementData.qty += 1
+      console.log(this.cart)
+    },
+    decrementCart(data) {
+      const decrementData = this.cart.find(
+        (item) => item.product_id === data.product_id
+      )
+      decrementData.qty -= 1
+    },
+    handlePageChange(numberPage) {
+      // this.$router.push(`?page=${numberPage}`)
+      this.page = numberPage
+      this.getProduct()
     },
     addToCart(data) {
       const setCart = {
@@ -252,6 +334,11 @@ export default {
       console.log(this.cart)
       // console.log(this.cart.length)
     },
+    cancelCart(data) {
+      this.cart = this.cartNone
+      this.isCart = false
+      this.totalCart = 0
+    },
     getProduct() {
       axios
         .get(
@@ -259,6 +346,7 @@ export default {
         )
         .then((response) => {
           this.products = response.data.data
+          this.totalPage = response.data.pagination.totalData
           console.log(this.products)
         })
         .catch((error) => {
@@ -325,6 +413,38 @@ export default {
           console.log(error)
         })
     },
+    // setOrder(data) {
+    //   // console.log(this.cart)
+    //   const setCart = {
+    //     product_id: data.product_id,
+    //     product_name: data.product_name,
+    //     product_harga: data.product_harga,
+    //     qty: 1
+    //   }
+    //   this.orders = [...this.cart]
+    // },
+    postOrder(data) {
+      const dataOrders = this.cart.map((value, index) => {
+        const dataOrder = {
+          product_id: value.product_id,
+          order_qty: value.qty
+        }
+        this.setOrder = [...this.cart, dataOrder]
+        console.log(this.setOrder)
+        console.log(dataOrders)
+        // axios
+        //   .post('http://127.0.0.1:3001/order', this.setOrder)
+        //   .then((response) => {
+        //     console.log(response)
+        //   })
+        //   .catch((error) => {
+        //     console.log(error)
+        //   })
+      })
+    },
+    showModal() {
+      this.$refs['checkout-modal'].show()
+    },
     hideModal() {
       this.$refs['update-product'].hide()
     },
@@ -346,8 +466,7 @@ export default {
         // }
       })
     },
-    totalPage() {
-      console.log(this.products.length)
+    rows() {
       return this.products.length
     }
   }
