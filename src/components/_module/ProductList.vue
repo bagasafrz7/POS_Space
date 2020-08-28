@@ -424,23 +424,33 @@ export default {
     //   this.orders = [...this.cart]
     // },
     postOrder(data) {
-      const dataOrders = this.cart.map((value, index) => {
-        const dataOrder = {
-          product_id: value.product_id,
-          order_qty: value.qty
-        }
-        this.setOrder = [...this.cart, dataOrder]
-        console.log(this.setOrder)
-        console.log(dataOrders)
-        // axios
-        //   .post('http://127.0.0.1:3001/order', this.setOrder)
-        //   .then((response) => {
-        //     console.log(response)
-        //   })
-        //   .catch((error) => {
-        //     console.log(error)
-        //   })
-      })
+      // const dataOrders = this.cart.map((value, index) => {
+      //   const dataOrder = {
+      //     product_id: value.product_id,
+      //     product_harga: value.product_harga,
+      //     order_qty: value.qty
+      //   }
+      //   this.setOrder = [...this.cart, dataOrder]
+      // console.log(this.setOrder)
+      // console.log(this.cart)
+      // axios
+      //   .post('http://127.0.0.1:3001/order', this.setOrder)
+      //   .then((response) => {
+      //     console.log(response)
+      //   })
+      //   .catch((error) => {
+      //     console.log(error)
+      //   })
+      // })
+      // console.log(this.cart)
+      // axios
+      //   .post('http://127.0.0.1:3001/order', this.cart)
+      //   .then((response) => {
+      //     console.log(response)
+      //   })
+      //   .catch((error) => {
+      //     console.log(error)
+      //   })
     },
     showModal() {
       this.$refs['checkout-modal'].show()
