@@ -1,7 +1,7 @@
 <template>
   <div class="side-bar">
     <!-- <b-container fluid> -->
-    <div class="side-cart">
+    <div class="side-cart fixed-top">
       <h4 class="text-center">
         Cart
         <span class="badge badge-secondary">{{totalCart}}</span>
@@ -39,12 +39,12 @@
               <img src="../../assets/img/icon/select.png" alt />
             </div>
             <b-row>
-              <b-col cols="8">
+              <b-col cols="8" md="8" sm="9">
                 <p>{{item.product_name}}</p>
                 <h3>{{item.product_harga}}</h3>
               </b-col>
-              <b-col cols="4" class="img-cart">
-                <b-button class="mt-2 mx-2" variant="outline-info" v-on:click="addToCart(item)">
+              <b-col cols="4" md="4" sm="3" class="img-cart">
+                <b-button class="mt-2" variant="outline-info" v-on:click="addToCart(item)">
                   <img src="../../assets/img/icon/cart.png" alt />
                 </b-button>
               </b-col>
@@ -83,12 +83,8 @@
       </b-col>
       <b-col cols="12" sm="4" md="4" class="content-cart">
         <b-row class="text-center">
-          <b-col cols="12" sm="12" md="12" v-show="!isCart">
-            <img
-              alt="Restorant logo"
-              src="../../assets/img/icon/food-and-restorant.png"
-              width="200"
-            />
+          <b-col cols="12" sm="12" md="12" v-show="!isCart" class="cartBefore">
+            <img alt="Restorant logo" src="../../assets/img/icon/food-and-restorant.png" />
             <h4>Your cart is empty</h4>
             <p>Please add some items from the menu</p>
           </b-col>
@@ -103,13 +99,13 @@
               <b-button
                 class="btn btn-secondary minus"
                 @click="decrementCart(item)"
-                :disabled="item.qty === 1"
+                :disabled="item.order_qty === 1"
               >-</b-button>
-              <input type="text" class="number" :value="item.qty" id="number" disabled />
+              <input type="text" class="number" :value="item.order_qty" id="number" disabled />
               <b-button class="btn btn-secondary plus" @click="incrementCart(item)">+</b-button>
             </b-col>
             <b-col cols="3">
-              <h6>{{item.product_harga * item.qty}}</h6>
+              <h6>Rp.{{item.order_price * item.order_qty}}</h6>
             </b-col>
           </b-row>
           <div class="detail-cekout">
@@ -121,15 +117,12 @@
                 </p>
               </b-col>
               <b-col cols="6" md="6" sm="6" class="text-right">
-                <p>Total Price</p>
+                <p>Rp.{{totalPriceCart()}}</p>
               </b-col>
             </b-row>
             <b-row class="mt-2">
               <b-col cols="12" md="12" sm="12">
-                <b-button
-                  class="btn btn-primary btn-checkout"
-                  @click="showModal, postOrder(cart)"
-                >Checkout</b-button>
+                <b-button class="btn btn-primary btn-checkout" @click="postOrder(cart)">Checkout</b-button>
                 <b-button class="btn btn-cancel" @click="cancelCart()">Cancel</b-button>
               </b-col>
             </b-row>
@@ -210,20 +203,29 @@
           <b-col cols="6" md="6" sm="6" class="text-right">
             <p>
               Receipt No :
-              <span>#INVOICES</span>
+              <span>#{{invoice}}</span>
             </p>
           </b-col>
         </b-row>
-        <b-row>
+        <b-row v-for="(value, index) in cart" :key="index">
           <b-col cols="6" md="6" sm="6" class="text-left mb-4">
             <p>
-              Product Name
-              <span>Qty</span>
+              {{value.product_name}}
+              <span>{{value.order_qty}}x</span>
             </p>
-            <p>Payment : Cash</p>
           </b-col>
           <b-col cols="6" md="6" sm="6" class="text-right">
-            <p>Product Price</p>
+            <p>Rp.{{value.order_price * value.order_qty}}</p>
+          </b-col>
+        </b-row>
+        <b-row>
+          <b-col cols="6" md="6" sm="6">
+            <p>PPN 10%</p>
+            <p>Payment: Cash</p>
+          </b-col>
+          <b-col cols="6" md="6" sm="6" class="text-right">
+            <p>{{ppn}}</p>
+            <p>Total : Rp.{{subTotal}}</p>
           </b-col>
         </b-row>
         <b-row>
@@ -274,7 +276,10 @@ export default {
       totalCart: 0,
       dataDecrement: 1,
       orders: [],
-      setOrder: []
+      invoice: '',
+      // totalPriceCart: '',
+      subTotal: '',
+      ppn: ''
     }
   },
   created() {
@@ -306,14 +311,14 @@ export default {
       const incrementData = this.cart.find(
         (item) => item.product_id === data.product_id
       )
-      incrementData.qty += 1
+      incrementData.order_qty += 1
       console.log(this.cart)
     },
     decrementCart(data) {
       const decrementData = this.cart.find(
         (item) => item.product_id === data.product_id
       )
-      decrementData.qty -= 1
+      decrementData.order_qty -= 1
     },
     handlePageChange(numberPage) {
       // this.$router.push(`?page=${numberPage}`)
@@ -324,15 +329,23 @@ export default {
       const setCart = {
         product_id: data.product_id,
         product_name: data.product_name,
-        product_harga: data.product_harga,
-        qty: 1
+        order_price: data.product_harga,
+        order_qty: 1
       }
       // spread operator
       this.cart = [...this.cart, setCart]
       this.isCart = true
       this.totalCart = this.cart.length
+      // this.totalPriceCart = this.cart
       console.log(this.cart)
       // console.log(this.cart.length)
+    },
+    totalPriceCart() {
+      let totalDataCart = 0
+      for (let i = 0; i < this.cart.length; i++) {
+        totalDataCart += this.cart[i].order_price * this.cart[i].order_qty
+      }
+      return totalDataCart
     },
     cancelCart(data) {
       this.cart = this.cartNone
@@ -413,47 +426,24 @@ export default {
           console.log(error)
         })
     },
-    // setOrder(data) {
-    //   // console.log(this.cart)
-    //   const setCart = {
-    //     product_id: data.product_id,
-    //     product_name: data.product_name,
-    //     product_harga: data.product_harga,
-    //     qty: 1
-    //   }
-    //   this.orders = [...this.cart]
-    // },
     postOrder(data) {
-      // const dataOrders = this.cart.map((value, index) => {
-      //   const dataOrder = {
-      //     product_id: value.product_id,
-      //     product_harga: value.product_harga,
-      //     order_qty: value.qty
-      //   }
-      //   this.setOrder = [...this.cart, dataOrder]
-      // console.log(this.setOrder)
-      // console.log(this.cart)
-      // axios
-      //   .post('http://127.0.0.1:3001/order', this.setOrder)
-      //   .then((response) => {
-      //     console.log(response)
-      //   })
-      //   .catch((error) => {
-      //     console.log(error)
-      //   })
-      // })
-      // console.log(this.cart)
-      // axios
-      //   .post('http://127.0.0.1:3001/order', this.cart)
-      //   .then((response) => {
-      //     console.log(response)
-      //   })
-      //   .catch((error) => {
-      //     console.log(error)
-      //   })
-    },
-    showModal() {
-      this.$refs['checkout-modal'].show()
+      const setOrder = { orders: this.cart }
+      console.log(setOrder)
+      axios
+        .post('http://127.0.0.1:3001/order', setOrder)
+        .then((response) => {
+          this.setOrder = response.data.data
+          this.invoice = response.data.data.invoice
+          this.ppn = response.data.data.ppn
+          this.subTotal = response.data.data.subTotal
+          this.isCart = false
+          this.totalCart = 0
+          this.$refs['checkout-modal'].show()
+          console.log(response)
+        })
+        .catch((error) => {
+          console.log(error)
+        })
     },
     hideModal() {
       this.$refs['update-product'].hide()

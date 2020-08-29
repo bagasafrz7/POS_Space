@@ -2,9 +2,9 @@
   <div class="header">
     <!-- <b-container fluid> -->
     <b-row>
-      <b-col cols="12" md="12" sm="12">
+      <b-col cols="12" md="8" sm="8">
         <b-row>
-          <b-col cols="1" md="1" sm="1">
+          <b-col cols="1" md="1" sm="1" class="header-burger">
             <router-link to="/">
               <img alt="Burger logo" src="../../assets/img/icon/menu.png" />
             </router-link>

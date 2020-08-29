@@ -3,19 +3,19 @@
     <b-row>
       <b-col cols="12" md="12" sm="12">
         <div class="card-history">
-          <div class="btn-income" v-for="(item, index1) in days" :key="index1">
+          <div class="btn-income">
             <h5>Today's Income</h5>
-            <h2>Rp. {{item.totalToday}}</h2>
+            <h2>Rp. {{todayIncome}}</h2>
             <p>+2% Yesterday</p>
           </div>
-          <div class="btn-orders" v-for="(item, index2) in week" :key="index2">
+          <div class="btn-orders">
             <h5>Orders</h5>
-            <h2>{{item.Orders}}</h2>
+            <h2>{{ordersWeek}}</h2>
             <p>+5% Last Week</p>
           </div>
-          <div class="btn-years" v-for="(item, index3) in years" :key="index3">
+          <div class="btn-years">
             <h5>This Year's Income</h5>
-            <h2>Rp. {{item.totalYears}}</h2>
+            <h2>Rp. {{yearsIncome}}</h2>
             <p>+10% Last Year</p>
           </div>
         </div>
@@ -29,7 +29,20 @@
               <h2>Revenue</h2>
             </b-col>
             <b-col cols="6" md="6" sm="6" class="text-right">
-              <span class="badge badge-pill badge-secondary">Month</span>
+              <b-dropdown id="dropdown-right" right :text="month" class="m-md-2">
+                <b-dropdown-item @click="getOrdersJanuary()">January</b-dropdown-item>
+                <b-dropdown-item @click="getOrdersFebruary()">February</b-dropdown-item>
+                <b-dropdown-item @click="getOrdersMarch()">March</b-dropdown-item>
+                <b-dropdown-item @click="getOrdersApril()">April</b-dropdown-item>
+                <b-dropdown-item @click="getOrdersMay()">May</b-dropdown-item>
+                <b-dropdown-item @click="getOrdersJune()">June</b-dropdown-item>
+                <b-dropdown-item @click="getOrdersJuly()">July</b-dropdown-item>
+                <b-dropdown-item @click="getOrdersAugust()">August</b-dropdown-item>
+                <b-dropdown-item @click="getOrdersSeptember()">September</b-dropdown-item>
+                <b-dropdown-item @click="getOrdersOctober()">October</b-dropdown-item>
+                <b-dropdown-item @click="getOrdersNovember()">November</b-dropdown-item>
+                <b-dropdown-item @click="getOrdersDecember()">December</b-dropdown-item>
+              </b-dropdown>
             </b-col>
           </b-row>
           <b-row>
@@ -52,12 +65,16 @@
             <h2>Recent Order</h2>
           </b-col>
           <b-col cols="6" md="6" sm="6" class="text-right">
-            <span class="badge badge-pill badge-secondary">Today</span>
+            <b-dropdown id="dropdown-right" right :text="text" class="m-md-2">
+              <b-dropdown-item @click="getOrdersToday()">Today</b-dropdown-item>
+              <b-dropdown-item @click="getOrdersWeek()">This Week</b-dropdown-item>
+              <b-dropdown-item @click="getOrdersMonth()">This Month</b-dropdown-item>
+            </b-dropdown>
           </b-col>
         </b-row>
         <b-row>
-          <b-col cols="12" md="12" sm="12" class="mt-4">
-            <b-table striped hover :items="items"></b-table>
+          <b-col cols="12" md="12" sm="12" class="text-center mt-4">
+            <b-table striped hover :items="items" width="100"></b-table>
           </b-col>
         </b-row>
       </b-col>
@@ -71,6 +88,11 @@ export default {
   name: 'ContentHistory',
   data() {
     return {
+      todayIncome: '',
+      ordersWeek: '',
+      yearsIncome: '',
+      text: 'Today',
+      month: 'Month',
       days: [],
       week: [],
       years: [],
@@ -82,13 +104,15 @@ export default {
     this.getHistoryDays()
     this.getHistoryWeek()
     this.getHistoryYears()
-    this.getRecentOrder()
+    // this.getRecentOrder()
+    this.getOrdersToday()
   },
   methods: {
     getHistoryDays() {
       axios.get('http://127.0.0.1:3001/history/days').then((response) => {
         this.days = response.data.data
-        console.log(this.days)
+        this.todayIncome = response.data.data[0].totalToday
+        console.log(this.todayIncome)
       })
     },
     getHistoryYears() {
@@ -96,7 +120,8 @@ export default {
         .get('http://127.0.0.1:3001/history/years')
         .then((response) => {
           this.years = response.data.data
-          console.log(this.years)
+          this.yearsIncome = response.data.data[0].totalYears
+          console.log(this.yearsIncome)
         })
         .catch((error) => {
           console.log(error)
@@ -107,7 +132,8 @@ export default {
         .get('http://127.0.0.1:3001/history/week')
         .then((response) => {
           this.week = response.data.data
-          console.log(this.week)
+          this.ordersWeek = response.data.data[0].Orders
+          console.log(this.ordersWeek)
         })
         .catch((error) => {
           console.log(error)
@@ -117,6 +143,75 @@ export default {
       this.items = []
       axios
         .get('http://127.0.0.1:3001/order')
+        .then((response) => {
+          this.recentOrder = response.data.data
+          this.recentOrder.map((value) => {
+            const setItems = {
+              INVOICES: `#${value.history_invoice}`,
+              CASHIER: 'Cashier 1',
+              DATE: `${value.history_created_at}`,
+              ORDERS: `${value.product_name}`,
+              AMOUNT: `${value.history_subtotal}`
+            }
+            this.items = [...this.items, setItems]
+          })
+          // console.log(this.recentOrder)
+          console.log(this.items)
+        })
+        .catch((error) => {
+          console.log(error)
+        })
+    },
+    getOrdersToday() {
+      this.items = []
+      axios
+        .get('http://127.0.0.1:3001/history/orders/days')
+        .then((response) => {
+          this.recentOrder = response.data.data
+          this.recentOrder.map((value) => {
+            const setItems = {
+              INVOICES: `#${value.history_invoice}`,
+              CASHIER: 'Cashier 1',
+              DATE: `${value.history_created_at}`,
+              ORDERS: `${value.product_name}`,
+              AMOUNT: `${value.history_subtotal}`
+            }
+            this.items = [...this.items, setItems]
+          })
+          // console.log(this.recentOrder)
+          console.log(this.items)
+        })
+        .catch((error) => {
+          console.log(error)
+        })
+    },
+    getOrdersWeek() {
+      this.items = []
+      axios
+        .get('http://127.0.0.1:3001/history/orders/weeks')
+        .then((response) => {
+          this.recentOrder = response.data.data
+          this.recentOrder.map((value) => {
+            const setItems = {
+              INVOICES: `#${value.history_invoice}`,
+              CASHIER: 'Cashier 1',
+              DATE: `${value.history_created_at}`,
+              ORDERS: `${value.product_name}`,
+              AMOUNT: `${value.history_subtotal}`
+            }
+            this.items = [...this.items, setItems]
+          })
+          // console.log(this.recentOrder)
+          console.log(this.items)
+        })
+        .catch((error) => {
+          console.log(error)
+        })
+    },
+    getOrdersMonth() {
+      this.items = []
+      axios
+        .get('http://127.0.0.1:3001/history/orders/month')
         .then((response) => {
           this.recentOrder = response.data.data
           this.recentOrder.map((value) => {
