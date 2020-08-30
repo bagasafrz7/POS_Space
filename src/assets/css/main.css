@@ -177,8 +177,9 @@
 }
 
 .main-content .main-food .img-cart img {
-    width: 25px;
-    height: 25px;
+    width: 35px;
+    height: 35px;
+    padding: 5px;
 }
 
 .main-content .main-food p {
@@ -206,6 +207,7 @@
 .content-cart {
     box-shadow: -2px 0px 0px 0px rgba(0, 0, 0, 0.11);
     border-top: 1px solid rgb(206, 206, 206);
+    padding: 0 10px;
 }
 
 .content-cart .cartBefore img {
@@ -496,11 +498,11 @@ button.btn.btn-primary.btn-send.btn-secondary:hover {
     .detail-sidenav img {
         width: 20px;
         margin: 20px 0;
-        margin-left: -10px;
+        margin-left: 25px;
     }
 
     .main-content {
-        height: 1050px;
+        height: 900px;
     }
 
     .main-content .search-wrapper input{
@@ -510,6 +512,7 @@ button.btn.btn-primary.btn-send.btn-secondary:hover {
         border-radius: 5px;
         background: #fff;
         padding: 3px 5px;
+        margin-left: 10px;
     }
 
     .main-content .main-food img {
@@ -528,19 +531,21 @@ button.btn.btn-primary.btn-send.btn-secondary:hover {
     
     .main-content .main-food .select-image {
         content: "";
-        width: 80%;
-        height: 40%;
+        width: 87%;
+        height: 49%;
         position: absolute;
         background: rgba(0, 0, 0, 0.6);
         top: 0;
-        left: 10%;
+        left: 6%;
         border-radius: 10px 10px 0 0;
     }
 
     .main-content .main-food .img-cart img {
-        width: 10px;
-        height: 10px;
+        width: 25px;
+        height: 25px;
+        padding: 5px;
     }
+    
 
     .main-content .main-food .img-cart {
         margin-left: -10px;
@@ -610,7 +615,6 @@ button.btn.btn-primary.btn-send.btn-secondary:hover {
         width: 20px;
         height: 20px;
         margin: 0 0 0 10px;
-        padding-left: 7px;
         line-height: 0;
     }
     
@@ -628,7 +632,6 @@ button.btn.btn-primary.btn-send.btn-secondary:hover {
         background: rgba(130, 222, 58, 0.2);
         width: 20px;
         height: 20px;
-        padding-left: 7px;
         line-height: 0;
     }
 
@@ -640,6 +643,7 @@ button.btn.btn-primary.btn-send.btn-secondary:hover {
     .history .card-history {
         display: grid;
         width: 200px;
+        margin: 0 50px;
         /* background: #e5e5e5; */
         grid-template-areas:
           "btn-income"
@@ -666,7 +670,7 @@ button.btn.btn-primary.btn-send.btn-secondary:hover {
     }
 
     .main-content {
-        height: 1800px;
+        height: 1600px;
     }
 
     .main-content .search-wrapper input{
@@ -698,13 +702,17 @@ button.btn.btn-primary.btn-send.btn-secondary:hover {
 
     .main-content .main-food .select-image {
         content: "";
-        width: 87%;
-        height: 54%;
+        width: 89%;
+        height: 59%;
         position: absolute;
         background: rgba(0, 0, 0, 0.6);
         top: 0;
-        left: 7%;
+        left: 6%;
         border-radius: 10px 10px 0 0;
+    }
+
+    .main-content .main-food .select-image img {
+        margin-top: 35%;
     }
 
     .content-cart {

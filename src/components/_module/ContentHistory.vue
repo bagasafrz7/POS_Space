@@ -24,7 +24,7 @@
     <b-row class="chart">
       <b-col cols="12" md="12" sm="12">
         <div class="cart-body">
-          <b-row class="my-4">
+          <b-row class="my-4 px-4">
             <b-col cols="6" md="6" sm="6">
               <h2>Revenue</h2>
             </b-col>
@@ -60,7 +60,7 @@
     </b-row>
     <b-row class="recent-order">
       <b-col cols="12" md="12" sm="12">
-        <b-row>
+        <b-row class="px-4">
           <b-col cols="6" md="6" sm="6">
             <h2>Recent Order</h2>
           </b-col>

@@ -10,14 +10,17 @@
     <b-row>
       <b-col cols="12" sm="8" md="8" class="main-content">
         <b-row>
-          <b-col cols="8">
+          <b-col cols="3" md="3" sm="3">
             <b-alert v-bind:show="alert" variant="success">{{inMsg}}</b-alert>
             <div class="search-wrapper">
               <input type="text" v-model="search" placeholder="Search Product" />
             </div>
           </b-col>
-          <b-col cols="4">
-            <b-dropdown text="Filter" right variant="primary" class="mb-1 float-right">
+          <b-col cols="6" md="6" sm="6">
+            <b-alert v-bind:show="alert" variant="success">{{inMsg}}</b-alert>
+          </b-col>
+          <b-col cols="4" md="4" sm="4">
+            <b-dropdown text="Filter" right variant="primary" class="mb-1 mr-2 float-right">
               <b-dropdown-item @click="sortID()">ID</b-dropdown-item>
               <b-dropdown-item @click="sortName()">Name</b-dropdown-item>
               <b-dropdown-item @click="sortPrice()">Price</b-dropdown-item>
@@ -44,7 +47,7 @@
                 <h3>{{item.product_harga}}</h3>
               </b-col>
               <b-col cols="2" md="2" sm="2" class="img-cart">
-                <b-button class="mt-2" variant="outline-info" v-on:click="addToCart(item)">
+                <b-button class="mt-2 ml-3" variant="outline-info" v-on:click="addToCart(item)">
                   <img src="../../assets/img/icon/cart.png" alt />
                 </b-button>
               </b-col>
