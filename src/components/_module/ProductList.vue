@@ -39,11 +39,11 @@
               <img src="../../assets/img/icon/select.png" alt />
             </div>
             <b-row>
-              <b-col cols="8" md="8" sm="9">
+              <b-col cols="10" md="10" sm="10">
                 <p>{{item.product_name}}</p>
                 <h3>{{item.product_harga}}</h3>
               </b-col>
-              <b-col cols="4" md="4" sm="3" class="img-cart">
+              <b-col cols="2" md="2" sm="2" class="img-cart">
                 <b-button class="mt-2" variant="outline-info" v-on:click="addToCart(item)">
                   <img src="../../assets/img/icon/cart.png" alt />
                 </b-button>
