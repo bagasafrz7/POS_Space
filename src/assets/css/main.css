@@ -630,6 +630,7 @@ button.btn.btn-primary.btn-send.btn-secondary:hover {
 
     .history .card-history {
         display: grid;
+        width: 200px;
         /* background: #e5e5e5; */
         grid-template-areas:
           "btn-income"
@@ -712,4 +713,7 @@ button.btn.btn-primary.btn-send.btn-secondary:hover {
         box-shadow: 0px -5px 5px 0px rgba(0, 0, 0, 0.12);
     }
     
+    .history .recent-order .table-recent b-table {
+        width: 100px;
+    }
 }

@@ -74,7 +74,7 @@
         </b-row>
         <b-row>
           <b-col cols="12" md="12" sm="12" class="text-center mt-4">
-            <b-table striped hover :items="items" width="100"></b-table>
+            <b-table striped hover :items="items"></b-table>
           </b-col>
         </b-row>
       </b-col>
