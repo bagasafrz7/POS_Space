@@ -86,7 +86,7 @@ export default {
   data() {
     return {
       cart: [],
-      page: 2,
+      page: 1,
       limit: 9,
       sort: '',
       products: [],
@@ -113,6 +113,7 @@ export default {
         )
         .then((response) => {
           this.products = response.data.data
+          this.totalPage = response.data.pagination.totalData
           console.log(this.products)
         })
         .catch((error) => {
