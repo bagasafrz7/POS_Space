@@ -285,21 +285,28 @@ export default {
   created() {
     this.getProduct()
   },
+  updated() {
+    console.log(this.$route.query.page)
+  },
   methods: {
     sortID() {
       this.sort = 'product_id%20ASC'
+      this.$router.push(`?sort=${this.sort}`)
       this.getProduct()
     },
     sortName() {
       this.sort = 'product_name%20ASC'
+      this.$router.push(`?sort=${this.sort}`)
       this.getProduct()
     },
     sortPrice() {
       this.sort = 'product_harga%20ASC'
+      this.$router.push(`?sort=${this.sort}`)
       this.getProduct()
     },
     sortDate() {
       this.sort = 'product_created_at%20ASC'
+      this.$router.push(`?sort=${this.sort}`)
       this.getProduct()
     },
     checkCart(data) {
@@ -321,7 +328,7 @@ export default {
       decrementData.order_qty -= 1
     },
     handlePageChange(numberPage) {
-      // this.$router.push(`?page=${numberPage}`)
+      this.$router.push(`?page=${numberPage}`)
       this.page = numberPage
       this.getProduct()
     },

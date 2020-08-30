@@ -92,6 +92,7 @@ export default {
       ordersWeek: '',
       yearsIncome: '',
       text: 'Today',
+      weeks: 'Week',
       month: 'Month',
       days: [],
       week: [],
@@ -177,6 +178,7 @@ export default {
               AMOUNT: `${value.history_subtotal}`
             }
             this.items = [...this.items, setItems]
+            this.$router.push(`?sort-orders=${this.text}`)
           })
           // console.log(this.recentOrder)
           console.log(this.items)
@@ -200,6 +202,7 @@ export default {
               AMOUNT: `${value.history_subtotal}`
             }
             this.items = [...this.items, setItems]
+            this.$router.push(`?sort-orders=${this.weeks}`)
           })
           // console.log(this.recentOrder)
           console.log(this.items)
@@ -223,6 +226,7 @@ export default {
               AMOUNT: `${value.history_subtotal}`
             }
             this.items = [...this.items, setItems]
+            this.$router.push(`?sort-orders=${this.month}`)
           })
           // console.log(this.recentOrder)
           console.log(this.items)
