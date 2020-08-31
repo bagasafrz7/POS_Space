@@ -11,7 +11,7 @@
       <b-col cols="12" sm="8" md="8" class="main-content">
         <b-row>
           <b-col cols="3" md="3" sm="3">
-            <b-alert v-bind:show="alert" variant="success">{{inMsg}}</b-alert>
+            <!-- <b-alert v-bind:show="alert" variant="success">{{inMsg}}</b-alert> -->
             <div class="search-wrapper">
               <input type="text" v-model="search" placeholder="Search Product" />
             </div>
@@ -20,11 +20,36 @@
             <b-alert v-bind:show="alert" variant="success">{{inMsg}}</b-alert>
           </b-col>
           <b-col cols="3" md="3" sm="3">
-            <b-dropdown text="Filter" right variant="primary" class="mb-1 mr-2 float-right">
+            <!-- <b-dropdown text="Filter" right variant="primary" class="mb-1 mr-2 float-right">
               <b-dropdown-item @click="sortID()">ID</b-dropdown-item>
-              <b-dropdown-item @click="sortName()">Name</b-dropdown-item>
-              <b-dropdown-item @click="sortPrice()">Price</b-dropdown-item>
-              <b-dropdown-item @click="sortDate()">Date</b-dropdown-item>
+              <b-dropdown-item @click="sortName()">Name (A-Z)</b-dropdown-item>
+              <b-dropdown-item @click="sortNameDESC()">Name (Z-A)</b-dropdown-item>
+              <b-dropdown-item @click="sortPrice()">Cheapest Price</b-dropdown-item>
+              <b-dropdown-item @click="sortDate()">Latest</b-dropdown-item>
+            </b-dropdown>-->
+            <b-dropdown
+              id="dropdown-grouped"
+              text="Filter"
+              right
+              variant="primary"
+              class="mb-1 mr-2 float-right"
+            >
+              <b-dropdown-item-button @click="sortDateDESC()">Latest</b-dropdown-item-button>
+              <b-dropdown-item-button @click="sortDate()">Oldest</b-dropdown-item-button>
+              <b-dropdown-divider></b-dropdown-divider>
+              <b-dropdown-group id="dropdown-group-1" header="Name">
+                <b-dropdown-item-button @click="sortName()">A-Z</b-dropdown-item-button>
+                <b-dropdown-item-button @click="sortNameDESC()">Z-A</b-dropdown-item-button>
+              </b-dropdown-group>
+              <b-dropdown-group id="dropdown-group-2" header="Price">
+                <b-dropdown-item-button @click="sortPrice()">Cheapest Price</b-dropdown-item-button>
+                <b-dropdown-item-button @click="sortPriceDESC()">Most Expensive Price</b-dropdown-item-button>
+              </b-dropdown-group>
+              <b-dropdown-group id="dropdown-group-2" header="Category">
+                <b-dropdown-item-button @click="sortCategoryDrinks()">Drinks</b-dropdown-item-button>
+                <b-dropdown-item-button @click="sortCategoryFoods()">Foods</b-dropdown-item-button>
+              </b-dropdown-group>
+              <b-dropdown-divider></b-dropdown-divider>
             </b-dropdown>
           </b-col>
         </b-row>
@@ -242,6 +267,59 @@
       </b-modal>
     </div>
     <!-- End Checkout -->
+    <!-- Modal -->
+    <b-modal id="checkoutModal" hide-footer centered ref="checkoutModals">
+      <template v-slot:modal-header="{ close }">
+        <h5>Checkout</h5>
+        <!-- Emulate built in modal header close button action -->
+        <b-button size="sm" variant="outline" @click="close(), closeData()" class="text-bold">X</b-button>
+      </template>
+
+      <template v-slot:default="{ hide }">
+        <!-- <template> -->
+        <b-row class="mb-4">
+          <b-col cols="6" md="6" sm="6" class="text-left">
+            <p>Cashier : Pevita Pearce</p>
+          </b-col>
+          <b-col cols="6" md="6" sm="6" class="text-right">
+            <p>
+              Receipt No :
+              <span>#{{invoice}}</span>
+            </p>
+          </b-col>
+        </b-row>
+        <b-row v-for="(value, index) in cart" :key="index">
+          <b-col cols="6" md="6" sm="6" class="text-left mb-4">
+            <p>
+              {{value.product_name}}
+              <span>{{value.order_qty}}x</span>
+            </p>
+          </b-col>
+          <b-col cols="6" md="6" sm="6" class="text-right">
+            <p>Rp.{{value.order_price * value.order_qty}}</p>
+          </b-col>
+        </b-row>
+        <b-row>
+          <b-col cols="6" md="6" sm="6">
+            <p>PPN 10%</p>
+            <p>Payment: Cash</p>
+          </b-col>
+          <b-col cols="6" md="6" sm="6" class="text-right">
+            <p>{{ppn}}</p>
+            <p>Total : Rp.{{subTotal}}</p>
+          </b-col>
+        </b-row>
+        <b-row>
+          <b-col cols="12" md="12" sm="12" class="mt-4">
+            <b-button class="btn btn-secondary btn-print" block @click="hide(), print()">Print</b-button>
+            <p class="text-center my-2">Or</p>
+            <b-button class="btn btn-primary btn-send" block @click="hideModal">Send Email</b-button>
+          </b-col>
+        </b-row>
+        <!-- <b-button @click="hide()">Hide Modal</b-button> -->
+      </template>
+    </b-modal>
+    <!-- End Modal -->
   </div>
 </template>
 
@@ -302,13 +380,38 @@ export default {
       this.$router.push(`?sort=${this.sort}`)
       this.getProduct()
     },
+    sortNameDESC() {
+      this.sort = 'product_name%20DESC'
+      this.$router.push(`?sort=${this.sort}`)
+      this.getProduct()
+    },
     sortPrice() {
       this.sort = 'product_harga%20ASC'
       this.$router.push(`?sort=${this.sort}`)
       this.getProduct()
     },
+    sortPriceDESC() {
+      this.sort = 'product_harga%20DESC'
+      this.$router.push(`?sort=${this.sort}`)
+      this.getProduct()
+    },
     sortDate() {
       this.sort = 'product_created_at%20ASC'
+      this.$router.push(`?sort=${this.sort}`)
+      this.getProduct()
+    },
+    sortDateDESC() {
+      this.sort = 'product_created_at%20DESC'
+      this.$router.push(`?sort=${this.sort}`)
+      this.getProduct()
+    },
+    sortCategoryDrinks() {
+      this.sort = 'category_id=2'
+      this.$router.push(`?sort=${this.sort}`)
+      this.getProduct()
+    },
+    sortCategoryFoods() {
+      this.sort = 'category_id=1'
       this.$router.push(`?sort=${this.sort}`)
       this.getProduct()
     },
@@ -358,6 +461,16 @@ export default {
       return totalDataCart
     },
     cancelCart(data) {
+      this.cart = this.cartNone
+      this.isCart = false
+      this.totalCart = 0
+    },
+    closeData() {
+      this.cart = this.cartNone
+      this.isCart = false
+      this.totalCart = 0
+    },
+    print() {
       this.cart = this.cartNone
       this.isCart = false
       this.totalCart = 0
@@ -448,7 +561,8 @@ export default {
           this.subTotal = response.data.data.subTotal
           this.isCart = false
           this.totalCart = 0
-          this.$refs['checkout-modal'].show()
+          // this.$refs['checkout-modal'].show()
+          this.$bvModal.show('checkoutModal')
           console.log(response)
         })
         .catch((error) => {

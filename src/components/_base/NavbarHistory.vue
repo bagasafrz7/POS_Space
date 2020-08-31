@@ -5,7 +5,7 @@
       <b-col cols="12" md="12" sm="12">
         <b-row>
           <b-col cols="1" md="1" sm="1">
-            <router-link to="/">
+            <router-link to>
               <img alt="Burger logo" src="../../assets/img/icon/menu.png" />
             </router-link>
           </b-col>

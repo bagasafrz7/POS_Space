@@ -3,14 +3,20 @@
     <b-row>
       <b-col cols="12" sm="1" md="1">
         <nav class="nav">
-          <!-- <router-link to="/home-select">
+          <router-link to="/">
             <img alt="Fork logo" src="../../assets/img/icon/fork.png" />
-          </router-link>-->
+          </router-link>
           <router-link to="/history">
             <img alt="Clipboard logo" src="../../assets/img/icon/clipboard.png" />
           </router-link>
-          <router-link to>
+          <!-- <router-link to>
             <img alt="Add logo" src="../../assets/img/icon/add.png" @click="showModal" />
+          </router-link>-->
+          <router-link to="/manage-product">
+            <img alt="Add logo" src="../../assets/img/icon/add.png" />
+          </router-link>
+          <router-link to="/manage-category">
+            <img alt="Add logo" src="../../assets/img/icon/add.png" />
           </router-link>
         </nav>
       </b-col>

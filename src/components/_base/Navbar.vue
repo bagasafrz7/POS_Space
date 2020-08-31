@@ -10,9 +10,9 @@
             </router-link>
           </b-col>
           <b-col cols="10" md="10" sm="10">
-            <h2 class="text-center">Food Items</h2>
+            <h2 class="text-center">SPACE</h2>
           </b-col>
-          <b-col cols="1" md="1" sm="1" class="header-search">
+          <!-- <b-col cols="1" md="1" sm="1" class="header-search">
             <img alt="Search logo" src="../../assets/img/icon/search.png" />
             <a href="#" class="search-btn"></a>
             <input
@@ -22,7 +22,7 @@
               name="search"
               placeholder="Search"
             />
-          </b-col>
+          </b-col>-->
         </b-row>
       </b-col>
     </b-row>
