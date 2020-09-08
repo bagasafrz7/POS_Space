@@ -18,6 +18,7 @@
           <router-link to="/manage-category">
             <img alt="Add logo" src="../../assets/img/icon/add.png" />
           </router-link>
+          <a class="logout" @click="handleLogout">Logout</a>
         </nav>
       </b-col>
     </b-row>
@@ -86,6 +87,8 @@
 <script>
 // import Modal from './Modal'
 import axios from 'axios'
+import { mapActions } from 'vuex'
+
 export default {
   name: 'Navigation',
   components: {},
@@ -112,6 +115,7 @@ export default {
     this.getProduct()
   },
   methods: {
+    ...mapActions({ handleLogout: 'logout' }),
     getProduct() {
       axios
         .get(

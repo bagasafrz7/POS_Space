@@ -3,6 +3,7 @@ import App from './App.vue'
 import router from './router'
 import Chartkick from 'vue-chartkick'
 import Chart from 'chart.js'
+import store from './store'
 
 import { BootstrapVue, IconsPlugin } from 'bootstrap-vue'
 import 'bootstrap/dist/css/bootstrap.css'
@@ -19,5 +20,6 @@ Vue.config.productionTip = false
 
 new Vue({
   router,
+  store,
   render: h => h(App)
 }).$mount('#app')
