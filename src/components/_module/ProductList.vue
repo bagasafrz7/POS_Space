@@ -77,20 +77,6 @@
                 </b-button>
               </b-col>
             </b-row>
-            <b-row>
-              <b-col cols="12">
-                <b-button
-                  @click="setProduct(item)"
-                  class="mt-1 btn-access btn-update"
-                  variant="success"
-                >Update</b-button>
-                <b-button
-                  @click="deleteProduct(item)"
-                  class="mt-1 btn-access btn-delete"
-                  variant="danger"
-                >Delete</b-button>
-              </b-col>
-            </b-row>
           </b-col>
         </b-row>
         <b-row class="my-4">
@@ -519,35 +505,6 @@ export default {
       this.product_id = data.product_id
       this.$refs['update-product'].show()
       // console.log(data.product_id)
-    },
-    patchProduct() {
-      console.log(this.form)
-      console.log(this.product_id)
-      axios
-        .patch(`http://127.0.0.1:3001/product/${this.product_id}`, this.form)
-        .then((response) => {
-          console.log(response)
-          this.alert = true
-          this.inMsg = response.data.msg
-          this.getProduct()
-        })
-        .catch((error) => {
-          console.log(error)
-        })
-    },
-    deleteProduct(data) {
-      console.log(data.product_id)
-      axios
-        .delete(`http://127.0.0.1:3001/product/${data.product_id}`)
-        .then((response) => {
-          console.log(response)
-          this.alert = true
-          this.inMsg = response.data.msg
-          this.getProduct()
-        })
-        .catch((error) => {
-          console.log(error)
-        })
     },
     postOrder(data) {
       const setOrder = { orders: this.cart }

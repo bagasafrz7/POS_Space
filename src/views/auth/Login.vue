@@ -26,7 +26,7 @@
               />
             </b-form-group>
 
-            <button type="submit" class="btn-submit">Submit</button>
+            <button type="submit" class="btn-submit">Sign In</button>
             <button type="reset" class="btn-reset">Reset</button>
           </b-form>
           <p>Terms and conditions & Privacy Policy</p>

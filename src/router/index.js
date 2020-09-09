@@ -6,6 +6,7 @@ import History from '../views/History.vue'
 import ManageProduct from '../views/ManageProduct.vue'
 import ContentCategory from '../views/ManageCategory.vue'
 import Login from '../views/auth/Login.vue'
+import Register from '../views/auth/Register.vue'
 import store from '../store'
 
 Vue.use(VueRouter)
@@ -45,6 +46,12 @@ const routes = [
     path: '/login',
     name: 'Login',
     component: Login,
+    meta: { requiresVisitor: true }
+  },
+  {
+    path: '/register',
+    name: 'Register',
+    component: Register,
     meta: { requiresVisitor: true }
   }
 ]

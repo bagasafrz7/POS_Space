@@ -13,12 +13,14 @@
             <img alt="Add logo" src="../../assets/img/icon/add.png" @click="showModal" />
           </router-link>-->
           <router-link to="/manage-product">
-            <img alt="Add logo" src="../../assets/img/icon/add.png" />
+            <img alt="Add logo" src="../../assets/img/icon/od.png" />
           </router-link>
           <router-link to="/manage-category">
             <img alt="Add logo" src="../../assets/img/icon/add.png" />
           </router-link>
-          <a class="logout" @click="handleLogout">Logout</a>
+          <a class="logout" @click="handleLogout">
+            <img src="../../assets/img/icon/logout.png" alt />
+          </a>
         </nav>
       </b-col>
     </b-row>
