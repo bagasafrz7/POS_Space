@@ -52,6 +52,13 @@ export default {
   },
   methods: {
     ...mapActions(['login']),
+    makeToast(variant = '') {
+      this.$bvToast.toast(`${this.inMsg}`, {
+        title: `Congrats! ${'' || ''}`,
+        variant: variant,
+        solid: true
+      })
+    },
     onSubmit() {
       // console.log(this.form)
       this.login(this.form)

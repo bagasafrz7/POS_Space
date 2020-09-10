@@ -5,6 +5,7 @@ import HomeSelect from '../views/HomeSelect.vue'
 import History from '../views/History.vue'
 import ManageProduct from '../views/ManageProduct.vue'
 import ContentCategory from '../views/ManageCategory.vue'
+import ManageUser from '../views/ManageUser.vue'
 import Login from '../views/auth/Login.vue'
 import Register from '../views/auth/Register.vue'
 import store from '../store'
@@ -40,6 +41,12 @@ const routes = [
     path: '/manage-category',
     name: 'ContentCategory',
     component: ContentCategory,
+    meta: { requiresAuth: true }
+  },
+  {
+    path: '/manage-user',
+    name: 'ManageUser',
+    component: ManageUser,
     meta: { requiresAuth: true }
   },
   {

@@ -3,8 +3,8 @@ import router from '../../router/index'
 
 export default ({
   state: {
+    msg: '',
     user: {},
-    inMsg: '',
     token: localStorage.getItem('token') || null
   },
   mutations: {
@@ -16,8 +16,8 @@ export default ({
       state.user = {}
       state.token = null
     },
-    Msg(state, payload) {
-      state.inMsg = payload
+    msg(state, payload) {
+      state.msg = payload.msg
     }
   },
   actions: {
@@ -30,6 +30,7 @@ export default ({
             context.commit('setUser', response.data.data)
             localStorage.setItem('token', response.data.data.token)
             resolve(response.data)
+            console.log(response.data.data.msg)
           }).catch(error => {
             // console.log(error)
             reject(error.response)
@@ -40,13 +41,6 @@ export default ({
       localStorage.removeItem('token')
       context.commit('delUser')
       router.push('/login')
-    },
-    makeToast(variant = '') {
-      this.$bvToast.toast(`${this.inMsg}`, {
-        title: `Congrats! ${'' || ''}`,
-        variant: variant,
-        solid: true
-      })
     },
     addUsers(context, payload) {
       return new Promise((resolve, reject) => {
@@ -82,6 +76,7 @@ export default ({
         return response
       }, function (error) {
         console.log(error.response)
+        console.log(error.response.data.msg)
         if (error.response.status === 403) {
           if (error.response.data.msg === 'invalid token' || error.response.data.msg === 'invalid signature') {
             localStorage.removeItem('token')
@@ -94,6 +89,8 @@ export default ({
             router.push('/login')
             alert('Maaf Token session anda telah habis')
           }
+        } else if (error.response.status === 400) {
+          alert(`${error.response.data.msg}`)
         }
         return Promise.reject(error)
       })

@@ -18,6 +18,9 @@
           <router-link to="/manage-category">
             <img alt="Add logo" src="../../assets/img/icon/add.png" />
           </router-link>
+          <router-link to="/manage-user">
+            <img alt="Add logo" src="../../assets/img/icon/friend.png" />
+          </router-link>
           <a class="logout" @click="handleLogout">
             <img src="../../assets/img/icon/logout.png" alt />
           </a>
