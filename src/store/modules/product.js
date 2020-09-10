@@ -25,6 +25,7 @@ export default {
           `http://127.0.0.1:3001/product?page=${context.state.page}&limit=${context.state.limit}&sort=${context.state.sort}`
         )
         .then((response) => {
+          console.log(response.data)
           context.commit('setProduct', response.data)
         })
         .catch((error) => {

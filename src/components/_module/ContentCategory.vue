@@ -41,7 +41,7 @@
                 <th scope="col">Action</th>
               </tr>
             </thead>
-            <tbody v-for="(item, index) in categorys, filteredList" :key="index">
+            <tbody v-for="(item, index) in categorys" :key="index">
               <tr>
                 <th scope="row">{{item.category_id}}</th>
                 <th>{{item.category_name}}</th>
@@ -123,33 +123,34 @@
 </template>
 
 <script>
-import axios from 'axios'
+import { mapGetters, mapActions, mapMutations } from 'vuex'
 
 export default {
   name: 'ContentCategory',
   data() {
     return {
       // perPage: 10,
-      totalPage: '',
       currentPage: 1,
-      page: 1,
-      limit: 9,
-      sort: '',
-      search: '',
-      categorys: [],
+      category_id: '',
       form: {
         category_name: '',
         category_status: ''
       },
       inMsg: '',
-      category_id: '',
       isUpdate: false
     }
   },
   created() {
-    this.getCategory()
+    this.getCategorys()
   },
   methods: {
+    ...mapActions([
+      'getCategorys',
+      'addCategorys',
+      'updateCategorys',
+      'deleteCategorys'
+    ]),
+    ...mapMutations(['changePage']),
     makeToast(variant = '') {
       this.$bvToast.toast(`${this.inMsg}`, {
         title: `Congrats! ${'' || ''}`,
@@ -159,35 +160,22 @@ export default {
     },
     handlePageChange(numberPage) {
       this.$router.push(`?page=${numberPage}`)
-      this.page = numberPage
-      this.getCategory()
-    },
-    getCategory() {
-      axios
-        .get(
-          `http://127.0.0.1:3001/category?page=${this.page}&limit=${this.limit}&sort=${this.sort}`
-        )
-        .then((response) => {
-          this.categorys = response.data.data
-          this.totalPage = response.data.pagination.totalData
-          console.log(this.categorys)
-        })
-        .catch((error) => {
-          console.log(error)
-        })
+      this.changePage(numberPage)
+      this.getCategorys()
     },
     addCategory() {
-      console.log(this.form)
-      axios
-        .post('http://127.0.0.1:3001/category', this.form)
+      this.addCategorys(this.form)
         .then((response) => {
-          console.log(response)
-          this.inMsg = response.data.msg
+          this.inMsg = response.msg
           this.makeToast(this.inMsg)
           this.$refs['add-category'].hide()
-          this.getCategory()
+          this.getCategorys()
+          console.log(response)
         })
         .catch((error) => {
+          this.inMsg = error.data.msg
+          this.makeToast(this.inMsg)
+          this.$refs['add-category'].hide()
           console.log(error)
         })
     },
@@ -203,33 +191,39 @@ export default {
       // console.log(data.product_id)
     },
     patchCategory() {
-      console.log(this.form)
-      console.log(this.category_id)
-      axios
-        .patch(`http://127.0.0.1:3001/category/${this.category_id}`, this.form)
+      const setData = {
+        category_id: this.category_id,
+        form: this.form
+      }
+      // console.log(setData)
+      this.updateCategorys(setData)
         .then((response) => {
-          console.log(response)
-          this.inMsg = response.data.msg
+          this.inMsg = response.msg
+          this.makeToast(this.inMsg)
           this.isUpdate = false
           this.$refs['add-category'].hide()
-          this.makeToast(this.inMsg)
-          this.getCategory()
+          this.getCategorys()
+          console.log(response)
         })
         .catch((error) => {
+          this.inMsg = error.data.msg
+          this.makeToast(this.inMsg)
+          this.isUpdate = false
+          this.$refs['add-category'].hide()
           console.log(error)
         })
     },
     deleteCategory(data) {
-      console.log(data.category_id)
-      axios
-        .delete(`http://127.0.0.1:3001/category/${data.category_id}`)
+      this.deleteCategorys(data.category_id)
         .then((response) => {
-          console.log(response)
-          this.inMsg = response.data.msg
+          this.inMsg = response.msg
           this.makeToast(this.inMsg)
-          this.getCategory()
+          this.getCategorys()
+          console.log(response)
         })
         .catch((error) => {
+          this.inMsg = error.data.msg
+          this.makeToast(this.inMsg)
           console.log(error)
         })
     },
@@ -242,17 +236,24 @@ export default {
     }
   },
   computed: {
-    filteredList() {
-      return this.categorys.filter((item, index) => {
-        // if (this.search) {
-        //   this.products = this.notSearch
-        // } else {
-        return item.category_name
-          .toLowerCase()
-          .includes(this.search.toLowerCase())
-        // }
-      })
-    }
+    ...mapGetters({
+      categorys: 'getCategory',
+      totalPage: 'getTotalPage',
+      limit: 'getLimit',
+      sort: 'getSort',
+      search: 'getSearch'
+    })
+    // filteredList() {
+    //   return this.categorys.filter((item, index) => {
+    //     // if (this.search) {
+    //     //   this.products = this.notSearch
+    //     // } else {
+    //     return item.category_name
+    //       .toLowerCase()
+    //       .includes(this.search.toLowerCase())
+    //     // }
+    //   })
+    // }
   }
 }
 </script>

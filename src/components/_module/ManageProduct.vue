@@ -209,14 +209,16 @@ export default {
       data.append('product_status', this.form.product_status)
       this.addProducts(data)
         .then((response) => {
-          // this.inMsg = response.data.msg
-          // this.makeToast(this.inMsg)
+          this.inMsg = response.msg
+          this.makeToast(this.inMsg)
           this.$refs['add-product'].hide()
           this.getProducts()
           console.log(response)
         })
         .catch((error) => {
-          this.makeToast = error.data.msg
+          this.inMsg = error.data.msg
+          this.makeToast(this.inMsg)
+          this.$refs['add-product'].hide()
           console.log(error)
         })
     },
@@ -247,28 +249,32 @@ export default {
       }
       this.updateProducts(setData)
         .then((response) => {
-          // this.inMsg = response.data.msg
-          // this.makeToast(this.inMsg)
+          this.inMsg = response.msg
+          this.makeToast(this.inMsg)
           this.isUpdate = false
           this.$refs['add-product'].hide()
           this.getProducts()
           console.log(response)
         })
         .catch((error) => {
-          this.makeToast = error.data.msg
+          this.inMsg = error.data.msg
+          this.makeToast(this.inMsg)
+          this.isUpdate = false
+          this.$refs['add-product'].hide()
           console.log(error)
         })
     },
     deleteProduct(data) {
       this.deleteProducts(data.product_id)
         .then((response) => {
-          // this.inMsg = response.data.msg
-          // this.makeToast(this.inMsg)
+          this.inMsg = response.msg
+          this.makeToast(this.inMsg)
           this.getProducts()
           console.log(response)
         })
         .catch((error) => {
-          this.makeToast = error.data.msg
+          this.inMsg = error.data.msg
+          this.makeToast(this.inMsg)
           console.log(error)
         })
       // console.log(data.product_id)
