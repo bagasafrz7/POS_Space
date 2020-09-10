@@ -42,7 +42,7 @@
                 <th scope="col">Action</th>
               </tr>
             </thead>
-            <tbody v-for="(item, index) in products, filteredList" :key="index">
+            <tbody v-for="(item, index) in products" :key="index">
               <tr>
                 <th scope="row">{{item.category_id}}</th>
                 <td>{{item.product_name}}</td>
@@ -93,7 +93,7 @@
             <div class="form-group row">
               <label class="col-sm-2 col-form-label">Image</label>
               <div class="col-sm-10">
-                <input type="text" v-model="form.product_image" class="form-control" id="name" />
+                <input type="file" @change="handleFile" class="form-control image" id="image" />
               </div>
             </div>
             <div class="form-group row">
@@ -152,40 +152,42 @@
 </template>
 
 <script>
-import axios from 'axios'
+import { mapGetters, mapActions, mapMutations } from 'vuex'
 
 export default {
   name: 'ContentManage',
   data() {
     return {
-      // perPage: 10,
-      totalPage: '',
       currentPage: 1,
-      cart: [],
-      cartNone: [],
-      page: 1,
-      limit: 9,
-      sort: '',
-      search: '',
-      products: [],
+      product_id: '',
       form: {
         category_id: '',
         product_name: '',
+        product_image: {},
         product_harga: '',
-        product_image: '',
         product_status: ''
       },
       alert: false,
       inMsg: '',
-      product_id: '',
       isUpdate: false,
       isCart: false
     }
   },
   created() {
-    this.getProduct()
+    this.getProducts()
   },
   methods: {
+    ...mapActions([
+      'getProducts',
+      'addProducts',
+      'updateProducts',
+      'deleteProducts'
+    ]),
+    ...mapMutations(['changePage']),
+    handleFile(event) {
+      this.form.product_image = event.target.files[0]
+      // console.log(event.target.files[0])
+    },
     makeToast(variant = '') {
       this.$bvToast.toast(`${this.inMsg}`, {
         title: `Congrats! ${'' || ''}`,
@@ -195,35 +197,26 @@ export default {
     },
     handlePageChange(numberPage) {
       this.$router.push(`?page=${numberPage}`)
-      this.page = numberPage
-      this.getProduct()
-    },
-    getProduct() {
-      axios
-        .get(
-          `http://127.0.0.1:3001/product?page=${this.page}&limit=${this.limit}&sort=${this.sort}`
-        )
-        .then((response) => {
-          this.products = response.data.data
-          this.totalPage = response.data.pagination.totalData
-          console.log(this.products)
-        })
-        .catch((error) => {
-          console.log(error)
-        })
+      this.changePage(numberPage)
+      this.getProducts()
     },
     addProduct() {
-      console.log(this.form)
-      axios
-        .post('http://127.0.0.1:3001/product', this.form)
+      const data = new FormData()
+      data.append('category_id', this.form.category_id)
+      data.append('product_name', this.form.product_name)
+      data.append('product_image', this.form.product_image)
+      data.append('product_harga', this.form.product_harga)
+      data.append('product_status', this.form.product_status)
+      this.addProducts(data)
         .then((response) => {
-          console.log(response)
-          this.inMsg = response.data.msg
-          this.makeToast(this.inMsg)
+          // this.inMsg = response.data.msg
+          // this.makeToast(this.inMsg)
           this.$refs['add-product'].hide()
-          this.getProduct()
+          this.getProducts()
+          console.log(response)
         })
         .catch((error) => {
+          this.makeToast = error.data.msg
           console.log(error)
         })
     },
@@ -231,8 +224,8 @@ export default {
       this.form = {
         category_id: data.category_id,
         product_name: data.product_name,
-        product_harga: data.product_harga,
         product_image: data.product_image,
+        product_harga: data.product_harga,
         product_status: data.product_status
       }
       this.isUpdate = true
@@ -242,35 +235,43 @@ export default {
       // console.log(data.product_id)
     },
     patchProduct() {
-      console.log(this.form)
-      console.log(this.product_id)
-      axios
-        .patch(`http://127.0.0.1:3001/product/${this.product_id}`, this.form)
+      const data = new FormData()
+      data.append('category_id', this.form.category_id)
+      data.append('product_name', this.form.product_name)
+      data.append('product_image', this.form.product_image)
+      data.append('product_harga', this.form.product_harga)
+      data.append('product_status', this.form.product_status)
+      const setData = {
+        product_id: this.product_id,
+        form: data
+      }
+      this.updateProducts(setData)
         .then((response) => {
-          console.log(response)
-          this.inMsg = response.data.msg
+          // this.inMsg = response.data.msg
+          // this.makeToast(this.inMsg)
           this.isUpdate = false
           this.$refs['add-product'].hide()
-          this.makeToast(this.inMsg)
-          this.getProduct()
+          this.getProducts()
+          console.log(response)
         })
         .catch((error) => {
+          this.makeToast = error.data.msg
           console.log(error)
         })
     },
     deleteProduct(data) {
-      console.log(data.product_id)
-      axios
-        .delete(`http://127.0.0.1:3001/product/${data.product_id}`)
+      this.deleteProducts(data.product_id)
         .then((response) => {
+          // this.inMsg = response.data.msg
+          // this.makeToast(this.inMsg)
+          this.getProducts()
           console.log(response)
-          this.inMsg = response.data.msg
-          this.makeToast(this.inMsg)
-          this.getProduct()
         })
         .catch((error) => {
+          this.makeToast = error.data.msg
           console.log(error)
         })
+      // console.log(data.product_id)
     },
     showModal() {
       this.$refs['add-product'].show()
@@ -281,17 +282,24 @@ export default {
     }
   },
   computed: {
-    filteredList() {
-      return this.products.filter((item, index) => {
-        // if (this.search) {
-        //   this.products = this.notSearch
-        // } else {
-        return item.product_name
-          .toLowerCase()
-          .includes(this.search.toLowerCase())
-        // }
-      })
-    }
+    ...mapGetters({
+      products: 'getProduct',
+      totalPage: 'getTotalPage',
+      limit: 'getLimit',
+      sort: 'getSort',
+      search: 'getSearch'
+    })
+    // filteredList() {
+    //   return this.products.filter((item, index) => {
+    //     // if (this.search) {
+    //     //   this.products = this.notSearch
+    //     // } else {
+    //     return item.product_name
+    //       .toLowerCase()
+    //       .includes(this.search.toLowerCase())
+    //     // }
+    //   })
+    // }
   }
 }
 </script>
