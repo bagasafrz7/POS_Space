@@ -39,6 +39,7 @@ export default ({
     },
     logout(context) {
       localStorage.removeItem('token')
+      sessionStorage.clear()
       context.commit('delUser')
       router.push('/login')
     },
@@ -99,6 +100,9 @@ export default ({
   getters: {
     isLogin(state) {
       return state.token !== null
+    },
+    setUser(state) {
+      return state.user
     }
   }
 })
