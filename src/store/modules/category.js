@@ -16,6 +16,9 @@ export default {
     },
     changePage(state, payload) {
       state.page = payload
+    },
+    sortCategory(state, payload) {
+      state.sort = payload
     }
   },
   actions: {
@@ -76,7 +79,7 @@ export default {
     getPage(state) {
       return state.page
     },
-    getSort(state) {
+    getSortCategory(state) {
       return state.sort
     },
     getCategory(state) {

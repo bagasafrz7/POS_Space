@@ -2,7 +2,7 @@
   <div class="manage">
     <b-container fluid>
       <!-- fixed-top -->
-      <b-row class="main-navbar">
+      <b-row class="main-navbar fixed-top">
         <b-col cols="12" md="12" sm="12" class="navigation">
           <Navbar />
         </b-col>

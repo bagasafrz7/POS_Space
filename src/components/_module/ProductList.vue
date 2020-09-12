@@ -66,17 +66,24 @@
             <div class="select-image text-center" v-if="checkCart(item)">
               <img src="../../assets/img/icon/select.png" alt />
             </div>
-            <b-row>
-              <b-col cols="10" md="10" sm="10">
-                <p>{{item.product_name}}</p>
-                <h3>Rp.{{item.product_harga}}</h3>
-              </b-col>
-              <b-col cols="2" md="2" sm="2" class="img-cart">
-                <b-button class="mt-2 ml-1" variant="outline-info" v-on:click="addToCart(item)">
-                  <img src="../../assets/img/icon/cart.png" alt />
-                </b-button>
-              </b-col>
-            </b-row>
+            <div class="detail-product">
+              <b-row>
+                <b-col cols="10" md="10" sm="10">
+                  <p>{{item.product_name}}</p>
+                  <h3>Rp.{{item.product_harga}}</h3>
+                </b-col>
+                <b-col cols="2" md="2" sm="2" class="img-cart">
+                  <b-button
+                    class="mt-2 ml-1"
+                    variant="outline-primary"
+                    v-on:click="addToCart(item)"
+                  >
+                    <!-- <img src="../../assets/img/icon/cart.png" alt /> -->
+                    <b-icon icon="cart-plus"></b-icon>
+                  </b-button>
+                </b-col>
+              </b-row>
+            </div>
           </b-col>
         </b-row>
         <b-row class="my-4">

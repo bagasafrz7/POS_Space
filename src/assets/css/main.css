@@ -48,7 +48,7 @@
 }
 
 .manage .main-home {
-    margin-top: 100px;
+    margin-top: 83px;
 }
 
 
@@ -169,6 +169,10 @@
 .main-content .main-food {
     margin: 10px 0;
     padding: 0 10px;
+}
+
+.main-content .main-food .detail-product {
+    background: #fff;
 }
 
 .main-content .main-food img {
