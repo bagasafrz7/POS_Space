@@ -3,28 +3,30 @@
     <b-row>
       <b-col cols="12" sm="1" md="1">
         <nav class="nav">
-          <router-link to="/">
+          <router-link to="/" class="detail-link">
             <img alt="Fork logo" src="../../assets/img/icon/fork.png" />
           </router-link>
-          <router-link to="/history">
+          <router-link to="/history" class="detail-link">
             <img alt="Clipboard logo" src="../../assets/img/icon/clipboard.png" />
           </router-link>
           <!-- <router-link to>
             <img alt="Add logo" src="../../assets/img/icon/add.png" @click="showModal" />
           </router-link>-->
-          <router-link to="/manage-product" v-if="user.user_role === 1">
+          <router-link to="/manage-product" v-if="user.user_role === 1" class="detail-link">
             <img alt="Add logo" src="../../assets/img/icon/od.png" />
           </router-link>
-          <router-link to="/manage-category" v-if="user.user_role === 1">
+          <router-link to="/manage-category" v-if="user.user_role === 1" class="detail-link">
             <img alt="Add logo" src="../../assets/img/icon/mn.png" />
           </router-link>
-          <router-link to="/manage-user" v-if="user.user_role === 1">
+          <router-link to="/manage-user" v-if="user.user_role === 1" class="detail-link">
             <img alt="Add logo" src="../../assets/img/icon/friend.png" />
           </router-link>
-          <a class="logout" @click="$bvModal.show('modal-logout')">
+          <a class="logout detail-link" @click="$bvModal.show('modal-logout')">
             <img src="../../assets/img/icon/logout.png" alt />
           </a>
-          <h5>{{ user.user_name }}</h5>
+          <div class="detail-user">
+            <h5>{{ user.user_name }}</h5>
+          </div>
         </nav>
       </b-col>
     </b-row>

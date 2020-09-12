@@ -90,7 +90,9 @@ export default {
 
 .left-login img {
   /* line-height: 150px; */
-  margin: 50px 0 0 150px;
+  /* margin: 50px 0 0 150px; */
+  display: block;
+  margin: 0 auto;
 }
 
 .right-login {

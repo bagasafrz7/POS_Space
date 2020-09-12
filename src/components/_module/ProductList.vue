@@ -74,7 +74,7 @@
                 </b-col>
                 <b-col cols="2" md="2" sm="2" class="img-cart">
                   <b-button
-                    class="mt-2 ml-1"
+                    class="mt-2 ml-1 btn-icon"
                     variant="outline-primary"
                     v-on:click="addToCart(item)"
                   >
