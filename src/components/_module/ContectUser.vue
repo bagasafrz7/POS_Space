@@ -41,10 +41,10 @@
                 <td>{{item.user_created_at}}</td>
                 <td>{{item.user_updated_at}}</td>
                 <td>
-                  <b-button @click="setUser(item)" variant="outline">
+                  <b-button @click="setDataUser(item)" variant="outline">
                     <b-icon icon="arrow-counterclockwise" variant="success"></b-icon>
                   </b-button>|
-                  <b-button @click="deleteUser(item)" variant="outline">
+                  <b-button @click="deleteDataUser(item)" variant="outline">
                     <b-icon icon="trash" variant="danger"></b-icon>
                   </b-button>
                 </td>
@@ -73,20 +73,37 @@
     <div>
       <b-modal ref="add-user" hide-footer centered title="Add Item">
         <div class="d-block text-center">
-          <form v-on:submit.prevent="addUser">
+          <form v-on:submit.prevent="addDataUser">
+            <div class="form-group row">
+              <label class="col-sm-2 col-form-label">Email</label>
+              <div class="col-sm-10">
+                <input type="email" v-model="form.user_email" class="form-control" id="email" />
+              </div>
+            </div>
+            <div class="form-group row">
+              <label class="col-sm-2 col-form-label">Password</label>
+              <div class="col-sm-10">
+                <input
+                  type="password"
+                  v-model="form.user_password"
+                  class="form-control"
+                  id="password"
+                />
+              </div>
+            </div>
             <div class="form-group row">
               <label class="col-sm-2 col-form-label">Name</label>
               <div class="col-sm-10">
-                <input type="text" v-model="form.category_name" class="form-control" id="name" />
+                <input type="text" v-model="form.user_name" class="form-control" id="name" />
               </div>
             </div>
             <div class="form-group row">
               <label class="col-sm-2 col-form-label">Status</label>
               <div class="col-sm-10">
-                <select id="inputState" class="form-control" v-model="form.category_status">
+                <select id="inputState" class="form-control" v-model="form.user_status">
                   <option selected disabled>Category Status</option>
-                  <option value="0">Empty</option>
-                  <option value="1">Available</option>
+                  <option value="0">Not active</option>
+                  <option value="1">Active</option>
                 </select>
               </div>
             </div>
@@ -139,7 +156,7 @@ export default {
     this.getDataUsers()
   },
   methods: {
-    ...mapActions(['getDataUsers', 'updateDataUsers']),
+    ...mapActions(['getDataUsers', 'updateDataUsers', 'deleteDataUsers']),
     ...mapMutations(['changePage']),
     makeToast(variant = '') {
       this.$bvToast.toast(`${this.inMsg}`, {
@@ -185,6 +202,20 @@ export default {
           this.makeToast(this.inMsg)
           this.isUpdate = false
           this.$refs['add-user'].hide()
+          console.log(error)
+        })
+    },
+    deleteDataUser(data) {
+      this.deleteDataUsers(data.user_id)
+        .then((response) => {
+          this.inMsg = response.msg
+          this.makeToast(this.inMsg)
+          this.getDataUsers()
+          console.log(response)
+        })
+        .catch((error) => {
+          this.inMsg = error.data.msg
+          this.makeToast(this.inMsg)
           console.log(error)
         })
     },

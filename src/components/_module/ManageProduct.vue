@@ -2,15 +2,37 @@
   <div class="main-manage">
     <b-row>
       <b-col cols="12" md="12" sm="12">
-        <h4>Data Product</h4>
         <b-row>
           <b-col cols="6" md="6" sm="6">
+            <h4>Data Product</h4>
             <b-button squared variant="outline-info" @click="showModal" class="btn-data">
               Add Data
               <b-icon icon="file-plus-fill" variant="primary"></b-icon>
             </b-button>
           </b-col>
           <b-col cols="6" md="6" sm="6" class="text-right">
+            <div class="btn-sorting">
+              <b-dropdown id="sort" :text="sortText" right variant="primary" class="mb-1 mr-2">
+                <b-dropdown-item-button @click="sorting('product_created_at%20DESC')">Latest</b-dropdown-item-button>
+                <b-dropdown-item-button @click="sorting('product_created_at%20ASC')">Oldest</b-dropdown-item-button>
+                <b-dropdown-divider></b-dropdown-divider>
+                <b-dropdown-group id="dropdown-group-1" header="Name">
+                  <b-dropdown-item-button @click="sorting('product_name%20ASC')">A-Z</b-dropdown-item-button>
+                  <b-dropdown-item-button @click="sorting('product_name%20DESC')">Z-A</b-dropdown-item-button>
+                </b-dropdown-group>
+                <b-dropdown-group id="dropdown-group-2" header="Price">
+                  <b-dropdown-item-button @click="sorting('product_harga%20ASC')">Cheapest Price</b-dropdown-item-button>
+                  <b-dropdown-item-button
+                    @click="sorting('product_harga%20DESC')"
+                  >Most Expensive Price</b-dropdown-item-button>
+                </b-dropdown-group>
+                <b-dropdown-group id="dropdown-group-2" header="Category">
+                  <b-dropdown-item-button @click="sorting('category_id=2')">Drinks</b-dropdown-item-button>
+                  <b-dropdown-item-button @click="sorting('category_id=1')">Foods</b-dropdown-item-button>
+                </b-dropdown-group>
+                <b-dropdown-divider></b-dropdown-divider>
+              </b-dropdown>
+            </div>
             <div class="search-wrapper">
               <input type="text" v-model="search" placeholder="Search Product" />
             </div>
@@ -170,7 +192,8 @@ export default {
       alert: false,
       inMsg: '',
       isUpdate: false,
-      isCart: false
+      isCart: false,
+      sortText: 'Sort'
     }
   },
   created() {
@@ -183,7 +206,7 @@ export default {
       'updateProducts',
       'deleteProducts'
     ]),
-    ...mapMutations(['changePage']),
+    ...mapMutations(['changePage', 'sortProduct']),
     handleFile(event) {
       this.form.product_image = event.target.files[0]
       // console.log(event.target.files[0])
@@ -199,6 +222,28 @@ export default {
       this.$router.push(`?page=${numberPage}`)
       this.changePage(numberPage)
       this.getProducts()
+    },
+    sorting(value) {
+      if (value === 'product_created_at%20DESC') {
+        this.sortText = 'Latest'
+      } else if (value === 'product_created_at%20ASC') {
+        this.sortText = 'Oldest'
+      } else if (value === 'product_name%20ASC') {
+        this.sortText = 'A-Z'
+      } else if (value === 'product_name%20DESC') {
+        this.sortText = 'Z-A'
+      } else if (value === 'product_harga%20ASC') {
+        this.sortText = 'Cheapest Price'
+      } else if (value === 'product_harga%20DESC') {
+        this.sortText = 'Most Expensive Price'
+      } else if (value === 'category_id=2') {
+        this.sortText = 'Drinks'
+      } else if (value === 'category_id=1') {
+        this.sortText = 'Foods'
+      }
+      this.sortProduct(value)
+      this.getProducts()
+      this.$router.push(`?sort=${value}`)
     },
     addProduct() {
       const data = new FormData()
@@ -292,7 +337,7 @@ export default {
       products: 'getProduct',
       totalPage: 'getTotalPage',
       limit: 'getLimit',
-      sort: 'getSort',
+      sort: 'getSortProduct',
       search: 'getSearch'
     })
     // filteredList() {

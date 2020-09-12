@@ -62,14 +62,14 @@
             v-for="(item, index) in products, filteredList"
             :key="index"
           >
-            <img alt="Img 1" src="../../assets/img/food-menu/8_min.jpg" class="img-fluid" />
+            <img alt="Img 1" :src="'http://127.0.0.1:3001/' + item.product_image" class="img-fluid" />
             <div class="select-image text-center" v-if="checkCart(item)">
               <img src="../../assets/img/icon/select.png" alt />
             </div>
             <b-row>
               <b-col cols="10" md="10" sm="10">
                 <p>{{item.product_name}}</p>
-                <h3>{{item.product_harga}}</h3>
+                <h3>Rp.{{item.product_harga}}</h3>
               </b-col>
               <b-col cols="2" md="2" sm="2" class="img-cart">
                 <b-button class="mt-2 ml-1" variant="outline-info" v-on:click="addToCart(item)">

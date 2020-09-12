@@ -37,11 +37,21 @@ export default {
         axios
           .patch(`http://127.0.0.1:3001/users/${payload.user_id}`, payload.form)
           .then(response => {
-            // console.log(response)
             resolve(response.data)
           })
           .catch(error => {
-            // console.log(error.response)
+            reject(error.response)
+          })
+      })
+    },
+    deleteDataUsers(context, payload) {
+      return new Promise((resolve, reject) => {
+        axios
+          .delete(`http://127.0.0.1:3001/users/${payload}`)
+          .then((response) => {
+            resolve(response.data)
+          })
+          .catch((error) => {
             reject(error.response)
           })
       })

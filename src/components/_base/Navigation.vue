@@ -16,7 +16,7 @@
             <img alt="Add logo" src="../../assets/img/icon/od.png" />
           </router-link>
           <router-link to="/manage-category" v-if="user.user_role === 1">
-            <img alt="Add logo" src="../../assets/img/icon/add.png" />
+            <img alt="Add logo" src="../../assets/img/icon/mn.png" />
           </router-link>
           <router-link to="/manage-user" v-if="user.user_role === 1">
             <img alt="Add logo" src="../../assets/img/icon/friend.png" />

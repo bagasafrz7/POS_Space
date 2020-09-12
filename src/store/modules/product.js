@@ -16,6 +16,9 @@ export default {
     },
     changePage(state, payload) {
       state.page = payload
+    },
+    sortProduct(state, payload) {
+      state.sort = payload
     }
   },
   actions: {
@@ -84,7 +87,7 @@ export default {
     getPage(state) {
       return state.page
     },
-    getSort(state) {
+    getSortProduct(state) {
       return state.sort
     },
     getProduct(state) {
