@@ -110,7 +110,7 @@ export default {
   },
   methods: {
     getHistoryDays() {
-      axios.get('http://127.0.0.1:3001/history/days').then((response) => {
+      axios.get(`${process.env.VUE_APP_URL}history/days`).then((response) => {
         this.days = response.data.data
         this.todayIncome = response.data.data[0].totalToday
         console.log(this.todayIncome)
@@ -118,7 +118,7 @@ export default {
     },
     getHistoryYears() {
       axios
-        .get('http://127.0.0.1:3001/history/years')
+        .get(`${process.env.VUE_APP_URL}history/years`)
         .then((response) => {
           this.years = response.data.data
           this.yearsIncome = response.data.data[0].totalYears
@@ -130,7 +130,7 @@ export default {
     },
     getHistoryWeek() {
       axios
-        .get('http://127.0.0.1:3001/history/week')
+        .get(`${process.env.VUE_APP_URL}history/week`)
         .then((response) => {
           this.week = response.data.data
           this.ordersWeek = response.data.data[0].Orders
@@ -143,7 +143,7 @@ export default {
     getRecentOrder() {
       this.items = []
       axios
-        .get('http://127.0.0.1:3001/order')
+        .get(`${process.env.VUE_APP_URL}order`)
         .then((response) => {
           this.recentOrder = response.data.data
           this.recentOrder.map((value) => {
@@ -166,7 +166,7 @@ export default {
     getOrdersToday() {
       this.items = []
       axios
-        .get('http://127.0.0.1:3001/history/orders/days')
+        .get(`${process.env.VUE_APP_URL}history/orders/days`)
         .then((response) => {
           this.recentOrder = response.data.data
           this.recentOrder.map((value) => {
@@ -190,7 +190,7 @@ export default {
     getOrdersWeek() {
       this.items = []
       axios
-        .get('http://127.0.0.1:3001/history/orders/weeks')
+        .get(`${process.env.VUE_APP_URL}history/orders/weeks`)
         .then((response) => {
           this.recentOrder = response.data.data
           this.recentOrder.map((value) => {
@@ -214,7 +214,7 @@ export default {
     getOrdersMonth() {
       this.items = []
       axios
-        .get('http://127.0.0.1:3001/history/orders/month')
+        .get(`${process.env.VUE_APP_URL}history/orders/month`)
         .then((response) => {
           this.recentOrder = response.data.data
           this.recentOrder.map((value) => {

@@ -3,7 +3,7 @@
     <b-container fluid>
       <b-row>
         <b-col cols="12" md="7" sm="7" class="left-register">
-          <img src="../../assets/img/food-menu/space-icon.png" alt />
+          <img src="../../assets/img/food-menu/space-icon2.png" alt />
         </b-col>
         <b-col cols="12" md="5" sm="5" class="right-register">
           <div class="access-link">
@@ -12,7 +12,7 @@
           </div>
           <h3>Welcome</h3>
           <h6>Registration for your account</h6>
-          <b-form>
+          <b-form @submit.prevent="postUser" @reset.prevent="onReset">
             <b-form-group id="input-group-1" label="Email Address:" label-for="input-1">
               <input type="email" v-model="form.user_email" required placeholder="Input Email" />
             </b-form-group>
@@ -30,8 +30,8 @@
               <input type="text" v-model="form.user_name" required placeholder="Input Username" />
             </b-form-group>
 
-            <button type="submit" @click.prevent="postUser" class="btn-submit">Sign Up</button>
-            <button type="reset" @click.prevent="onReset" class="btn-reset">Reset</button>
+            <button type="submit" class="btn-submit">Sign Up</button>
+            <button type="reset" class="btn-reset">Reset</button>
           </b-form>
           <p>Terms and conditions & Privacy Policy</p>
         </b-col>
@@ -46,6 +46,7 @@ export default {
   name: 'Register',
   data() {
     return {
+      inMsg: '',
       form: {
         user_email: '',
         user_password: '',
@@ -55,12 +56,21 @@ export default {
   },
   methods: {
     ...mapActions(['addUsers']),
+    makeToast(variant = '') {
+      this.$bvToast.toast(`${this.inMsg}`, {
+        title: `Notice! ${'' || ''}`,
+        variant: variant,
+        solid: true
+      })
+    },
     postUser() {
       this.addUsers(this.form)
         .then((response) => {
           console.log(response)
         })
         .catch((error) => {
+          // this.inMsg = error.data
+          // this.makeToast(this.inMsg)
           console.log(error)
         })
     },

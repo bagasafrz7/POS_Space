@@ -25,7 +25,7 @@ export default {
     getProducts(context, payload) {
       axios
         .get(
-          `http://127.0.0.1:3001/product?page=${context.state.page}&limit=${context.state.limit}&sort=${context.state.sort}`
+          `${process.env.VUE_APP_URL}product?page=${context.state.page}&limit=${context.state.limit}&sort=${context.state.sort}`
         )
         .then((response) => {
           console.log(response.data)
@@ -38,7 +38,7 @@ export default {
     addProducts(context, payload) {
       return new Promise((resolve, reject) => {
         axios
-          .post('http://127.0.0.1:3001/product', payload)
+          .post(`${process.env.VUE_APP_URL}product`, payload)
           .then(response => {
             // console.log(response)
             resolve(response.data)
@@ -52,7 +52,7 @@ export default {
     updateProducts(context, payload) {
       return new Promise((resolve, reject) => {
         axios
-          .patch(`http://127.0.0.1:3001/product/${payload.product_id}`, payload.form)
+          .patch(`${process.env.VUE_APP_URL}product/${payload.product_id}`, payload.form)
           .then(response => {
             // console.log(response)
             resolve(response.data)
@@ -67,7 +67,7 @@ export default {
       // console.log(payload)
       return new Promise((resolve, reject) => {
         axios
-          .delete(`http://127.0.0.1:3001/product/${payload}`)
+          .delete(`${process.env.VUE_APP_URL}product/${payload}`)
           .then((response) => {
             resolve(response.data)
           })

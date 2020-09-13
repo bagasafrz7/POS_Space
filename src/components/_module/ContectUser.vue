@@ -31,7 +31,7 @@
                 <th scope="col">Action</th>
               </tr>
             </thead>
-            <tbody v-for="(item, index) in users" :key="index">
+            <tbody v-for="(item, index) in users, filteredList" :key="index">
               <tr>
                 <th scope="row">{{item.user_id}}</th>
                 <th>{{item.user_email}}</th>
@@ -73,11 +73,17 @@
     <div>
       <b-modal ref="add-user" hide-footer centered title="Add Item">
         <div class="d-block text-center">
-          <form v-on:submit.prevent="addDataUser">
+          <form @submit.prevent="patchDataUser">
             <div class="form-group row">
               <label class="col-sm-2 col-form-label">Email</label>
               <div class="col-sm-10">
-                <input type="email" v-model="form.user_email" class="form-control" id="email" />
+                <input
+                  type="email"
+                  v-model="form.user_email"
+                  required
+                  class="form-control"
+                  id="email"
+                />
               </div>
             </div>
             <div class="form-group row">
@@ -86,6 +92,7 @@
                 <input
                   type="password"
                   v-model="form.user_password"
+                  required
                   class="form-control"
                   id="password"
                 />
@@ -94,13 +101,13 @@
             <div class="form-group row">
               <label class="col-sm-2 col-form-label">Name</label>
               <div class="col-sm-10">
-                <input type="text" v-model="form.user_name" class="form-control" id="name" />
+                <input type="text" v-model="form.user_name" required class="form-control" id="name" />
               </div>
             </div>
             <div class="form-group row">
               <label class="col-sm-2 col-form-label">Status</label>
               <div class="col-sm-10">
-                <select id="inputState" class="form-control" v-model="form.user_status">
+                <select id="inputState" class="form-control" v-model="form.user_status" required>
                   <option selected disabled>Category Status</option>
                   <option value="0">Not active</option>
                   <option value="1">Active</option>
@@ -113,15 +120,7 @@
               class="mt-3"
               variant="outline-warning"
               block
-              v-show="!isUpdate"
-            >Add</b-button>
-            <b-button
-              type="button"
-              class="mt-3"
-              variant="outline-warning"
-              block
               v-show="isUpdate"
-              @click="patchDataUser()"
             >Update</b-button>
           </form>
         </div>
@@ -139,6 +138,7 @@ export default {
   data() {
     return {
       // perPage: 10,
+      search: '',
       currentPage: 1,
       user_id: '',
       form: {
@@ -234,7 +234,16 @@ export default {
       limit: 'getLimit',
       sort: 'getSort',
       search: 'getSearch'
-    })
+    }),
+    filteredList() {
+      return this.users.filter((item, index) => {
+        // if (this.search) {
+        //   this.products = this.notSearch
+        // } else {
+        return item.user_name.toLowerCase().includes(this.search.toLowerCase())
+        // }
+      })
+    }
   }
 }
 </script>

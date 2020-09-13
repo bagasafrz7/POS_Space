@@ -64,7 +64,7 @@
                 <th scope="col">Action</th>
               </tr>
             </thead>
-            <tbody v-for="(item, index) in products" :key="index">
+            <tbody v-for="(item, index) in products, filteredList" :key="index">
               <tr>
                 <th scope="row">{{item.category_id}}</th>
                 <td>{{item.product_name}}</td>
@@ -105,17 +105,29 @@
     <div>
       <b-modal ref="add-product" hide-footer centered title="Add Item">
         <div class="d-block text-center">
-          <form v-on:submit.prevent="addProduct">
+          <form @submit.prevent="addProduct">
             <div class="form-group row">
               <label class="col-sm-2 col-form-label">Name</label>
               <div class="col-sm-10">
-                <input type="text" v-model="form.product_name" class="form-control" id="name" />
+                <input
+                  type="text"
+                  v-model="form.product_name"
+                  required
+                  class="form-control"
+                  id="name"
+                />
               </div>
             </div>
             <div class="form-group row">
               <label class="col-sm-2 col-form-label">Image</label>
               <div class="col-sm-10">
-                <input type="file" @change="handleFile" class="form-control image" id="image" />
+                <input
+                  type="file"
+                  @change="handleFile"
+                  required
+                  class="form-control image"
+                  id="image"
+                />
               </div>
             </div>
             <div class="form-group row">
@@ -124,6 +136,7 @@
                 <input
                   type="number"
                   v-model="form.product_harga"
+                  required
                   class="form-control price"
                   id="price"
                 />
@@ -132,7 +145,7 @@
             <div class="form-group row">
               <label class="col-sm-2 col-form-label">Category</label>
               <div class="col-sm-10">
-                <select id="inputState" class="form-control" v-model="form.category_id">
+                <select id="inputState" class="form-control" v-model="form.category_id" required>
                   <option selected disabled>Category</option>
                   <option value="1">Drinks</option>
                   <option value="2">Foods</option>
@@ -142,7 +155,7 @@
             <div class="form-group row">
               <label class="col-sm-2 col-form-label">Status</label>
               <div class="col-sm-10">
-                <select id="inputState" class="form-control" v-model="form.product_status">
+                <select id="inputState" class="form-control" v-model="form.product_status" required>
                   <option selected disabled>Product Status</option>
                   <option value="0">Empty</option>
                   <option value="1">Available</option>
@@ -182,6 +195,7 @@ export default {
     return {
       currentPage: 1,
       product_id: '',
+      search: '',
       form: {
         category_id: '',
         product_name: '',
@@ -193,7 +207,8 @@ export default {
       inMsg: '',
       isUpdate: false,
       isCart: false,
-      sortText: 'Sort'
+      sortText: 'Sort',
+      filter: null
     }
   },
   created() {
@@ -339,18 +354,18 @@ export default {
       limit: 'getLimit',
       sort: 'getSortProduct',
       search: 'getSearch'
-    })
-    // filteredList() {
-    //   return this.products.filter((item, index) => {
-    //     // if (this.search) {
-    //     //   this.products = this.notSearch
-    //     // } else {
-    //     return item.product_name
-    //       .toLowerCase()
-    //       .includes(this.search.toLowerCase())
-    //     // }
-    //   })
-    // }
+    }),
+    filteredList() {
+      return this.products.filter((item, index) => {
+        // if (this.search) {
+        //   this.products = this.notSearch
+        // } else {
+        return item.product_name
+          .toLowerCase()
+          .includes(this.search.toLowerCase())
+        // }
+      })
+    }
   }
 }
 </script>

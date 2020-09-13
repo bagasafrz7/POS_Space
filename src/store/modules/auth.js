@@ -4,6 +4,7 @@ import router from '../../router/index'
 export default ({
   state: {
     msg: '',
+    inMsg: '',
     user: {},
     token: localStorage.getItem('token') || null
   },
@@ -24,7 +25,7 @@ export default ({
     login(context, payload) {
       return new Promise((resolve, reject) => {
         axios
-          .post('http://127.0.0.1:3001/users/login', payload)
+          .post(`${process.env.VUE_APP_URL}users/login`, payload)
           .then(response => {
             console.log(response)
             context.commit('setUser', response.data.data)
@@ -46,7 +47,7 @@ export default ({
     addUsers(context, payload) {
       return new Promise((resolve, reject) => {
         axios
-          .post('http://127.0.0.1:3001/users/register', payload)
+          .post(`${process.env.VUE_APP_URL}users/register`, payload)
           .then(response => {
             // console.log(response)
             resolve(response.data)

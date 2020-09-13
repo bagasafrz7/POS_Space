@@ -3,7 +3,7 @@
     <b-container fluid>
       <b-row>
         <b-col cols="12" md="7" sm="7" class="left-login">
-          <img src="../../assets/img/food-menu/space-icon.png" alt />
+          <img src="../../assets/img/food-menu/space-icon2.png" alt />
         </b-col>
         <b-col cols="12" md="5" sm="5" class="right-login">
           <div class="access-link">

@@ -62,7 +62,7 @@
             v-for="(item, index) in products, filteredList"
             :key="index"
           >
-            <img alt="Img 1" :src="'http://127.0.0.1:3001/' + item.product_image" class="img-fluid" />
+            <img alt="Img 1" :src="urlAPI + item.product_image" class="img-fluid" />
             <div class="select-image text-center" v-if="checkCart(item)">
               <img src="../../assets/img/icon/select.png" alt />
             </div>
@@ -325,6 +325,7 @@ export default {
   data() {
     return {
       // perPage: 10,
+      urlAPI: process.env.VUE_APP_URL,
       totalPage: '',
       currentPage: 1,
       count: 1,
@@ -471,7 +472,7 @@ export default {
     getProduct() {
       axios
         .get(
-          `http://127.0.0.1:3001/product?page=${this.page}&limit=${this.limit}&sort=${this.sort}`
+          `${process.env.VUE_APP_URL}product?page=${this.page}&limit=${this.limit}&sort=${this.sort}`
         )
         .then((response) => {
           this.products = response.data.data
@@ -490,7 +491,7 @@ export default {
     addProduct() {
       console.log(this.form)
       axios
-        .post('http://127.0.0.1:3001/product', this.form)
+        .post(`${process.env.VUE_APP_URL}product`, this.form)
         .then((response) => {
           console.log(response)
           this.alert = true
@@ -517,7 +518,7 @@ export default {
       const setOrder = { orders: this.cart }
       console.log(setOrder)
       axios
-        .post('http://127.0.0.1:3001/order', setOrder)
+        .post(`${process.env.VUE_APP_URL}order`, setOrder)
         .then((response) => {
           this.setOrder = response.data.data
           this.invoice = response.data.data.invoice

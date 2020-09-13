@@ -53,7 +53,7 @@
                 <th scope="col">Action</th>
               </tr>
             </thead>
-            <tbody v-for="(item, index) in categorys" :key="index">
+            <tbody v-for="(item, index) in categorys, filteredList" :key="index">
               <tr>
                 <th scope="row">{{item.category_id}}</th>
                 <th>{{item.category_name}}</th>
@@ -93,17 +93,28 @@
     <div>
       <b-modal ref="add-category" hide-footer centered title="Add Item">
         <div class="d-block text-center">
-          <form v-on:submit.prevent="addCategory">
+          <form @submit.prevent="addCategory">
             <div class="form-group row">
               <label class="col-sm-2 col-form-label">Name</label>
               <div class="col-sm-10">
-                <input type="text" v-model="form.category_name" class="form-control" id="name" />
+                <input
+                  type="text"
+                  v-model="form.category_name"
+                  required
+                  class="form-control"
+                  id="name"
+                />
               </div>
             </div>
             <div class="form-group row">
               <label class="col-sm-2 col-form-label">Status</label>
               <div class="col-sm-10">
-                <select id="inputState" class="form-control" v-model="form.category_status">
+                <select
+                  id="inputState"
+                  class="form-control"
+                  v-model="form.category_status"
+                  required
+                >
                   <option selected disabled>Category Status</option>
                   <option value="0">Empty</option>
                   <option value="1">Available</option>
@@ -142,6 +153,7 @@ export default {
   data() {
     return {
       // perPage: 10,
+      search: '',
       currentPage: 1,
       category_id: '',
       form: {
@@ -269,18 +281,18 @@ export default {
       limit: 'getLimit',
       sort: 'getSort',
       search: 'getSearch'
-    })
-    // filteredList() {
-    //   return this.categorys.filter((item, index) => {
-    //     // if (this.search) {
-    //     //   this.products = this.notSearch
-    //     // } else {
-    //     return item.category_name
-    //       .toLowerCase()
-    //       .includes(this.search.toLowerCase())
-    //     // }
-    //   })
-    // }
+    }),
+    filteredList() {
+      return this.categorys.filter((item, index) => {
+        // if (this.search) {
+        //   this.products = this.notSearch
+        // } else {
+        return item.category_name
+          .toLowerCase()
+          .includes(this.search.toLowerCase())
+        // }
+      })
+    }
   }
 }
 </script>

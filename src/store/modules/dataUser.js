@@ -22,7 +22,7 @@ export default {
     getDataUsers(context, payload) {
       axios
         .get(
-          `http://127.0.0.1:3001/users?page=${context.state.page}&limit=${context.state.limit}&sort=${context.state.sort}`
+          `${process.env.VUE_APP_URL}users?page=${context.state.page}&limit=${context.state.limit}&sort=${context.state.sort}`
         )
         .then((response) => {
           console.log(response.data)
@@ -35,7 +35,7 @@ export default {
     updateDataUsers(context, payload) {
       return new Promise((resolve, reject) => {
         axios
-          .patch(`http://127.0.0.1:3001/users/${payload.user_id}`, payload.form)
+          .patch(`${process.env.VUE_APP_URL}users/${payload.user_id}`, payload.form)
           .then(response => {
             resolve(response.data)
           })
@@ -47,7 +47,7 @@ export default {
     deleteDataUsers(context, payload) {
       return new Promise((resolve, reject) => {
         axios
-          .delete(`http://127.0.0.1:3001/users/${payload}`)
+          .delete(`${process.env.VUE_APP_URL}users/${payload}`)
           .then((response) => {
             resolve(response.data)
           })
