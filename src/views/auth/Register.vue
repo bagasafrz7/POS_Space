@@ -69,9 +69,9 @@ export default {
           console.log(response)
         })
         .catch((error) => {
-          // this.inMsg = error.data
-          // this.makeToast(this.inMsg)
-          console.log(error)
+          this.inMsg = error.data.msg
+          this.makeToast(this.inMsg)
+          // console.log(error.data.msg)
         })
     },
     onReset() {

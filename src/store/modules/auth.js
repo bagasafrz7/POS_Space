@@ -56,8 +56,8 @@ export default ({
             router.push('/login')
           })
           .catch(error => {
-            console.log(error.response)
-            // reject(error.response)
+            // console.log(error.response)
+            reject(error.response)
           })
       })
     },
@@ -77,8 +77,8 @@ export default ({
       axios.interceptors.response.use(function (response) {
         return response
       }, function (error) {
-        console.log(error.response)
-        console.log(error.response.data.msg)
+        // console.log(error.response)
+        // console.log(error.response.data.msg)
         if (error.response.status === 403) {
           if (error.response.data.msg === 'invalid token' || error.response.data.msg === 'invalid signature') {
             localStorage.removeItem('token')
@@ -91,8 +91,6 @@ export default ({
             router.push('/login')
             alert('Maaf Token session anda telah habis')
           }
-        } else if (error.response.status === 400) {
-          alert(`${error.response.data.msg}`)
         }
         return Promise.reject(error)
       })

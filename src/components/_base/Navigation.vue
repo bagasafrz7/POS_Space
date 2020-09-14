@@ -16,10 +16,10 @@
             <img alt="Add logo" src="../../assets/img/icon/od.png" />
           </router-link>
           <router-link to="/manage-category" v-if="user.user_role === 1" class="detail-link">
-            <img alt="Add logo" src="../../assets/img/icon/mn.png" />
+            <img alt="Add logo" src="../../assets/img/icon/category.png" />
           </router-link>
           <router-link to="/manage-user" v-if="user.user_role === 1" class="detail-link">
-            <img alt="Add logo" src="../../assets/img/icon/friend.png" />
+            <img alt="Add logo" src="../../assets/img/icon/group.png" />
           </router-link>
           <a class="logout detail-link" @click="$bvModal.show('modal-logout')">
             <img src="../../assets/img/icon/logout.png" alt />

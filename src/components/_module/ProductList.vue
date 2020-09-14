@@ -113,7 +113,7 @@
         <div class="detail-cart" v-show="isCart">
           <b-row class="mt-4" v-for="(item, index) in cart" :key="index">
             <b-col cols="3">
-              <img src="../../assets/img/food-menu/8_min.jpg" alt />
+              <img :src="urlAPI + item.product_image" alt />
             </b-col>
             <b-col cols="6" class="detail-number">
               <h5>{{item.product_name}}</h5>
@@ -272,7 +272,7 @@
         <!-- <template> -->
         <b-row class="mb-4">
           <b-col cols="6" md="6" sm="6" class="text-left">
-            <p>Cashier : Pevita Pearce</p>
+            <p>Cashier :{{ user.user_name}}</p>
           </b-col>
           <b-col cols="6" md="6" sm="6" class="text-right">
             <p>
@@ -318,6 +318,7 @@
 
 <script>
 import axios from 'axios'
+import { mapGetters } from 'vuex'
 
 export default {
   name: 'Card',
@@ -352,6 +353,7 @@ export default {
       dataDecrement: 1,
       orders: [],
       invoice: '',
+      cashier: '',
       // totalPriceCart: '',
       subTotal: '',
       ppn: ''
@@ -436,6 +438,7 @@ export default {
       const setCart = {
         product_id: data.product_id,
         product_name: data.product_name,
+        product_image: data.product_image,
         order_price: data.product_harga,
         order_qty: 1
       }
@@ -557,7 +560,8 @@ export default {
     },
     rows() {
       return this.products.length
-    }
+    },
+    ...mapGetters({ user: 'setUser' })
   }
 }
 </script>

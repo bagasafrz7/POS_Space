@@ -54,7 +54,7 @@ export default {
     ...mapActions(['login']),
     makeToast(variant = '') {
       this.$bvToast.toast(`${this.inMsg}`, {
-        title: `Congrats! ${'' || ''}`,
+        title: `Notice! ${'' || ''}`,
         variant: variant,
         solid: true
       })
@@ -63,11 +63,13 @@ export default {
       // console.log(this.form)
       this.login(this.form)
         .then((result) => {
-          console.log(result)
+          // console.log(result)
           this.$router.push('/')
         })
         .catch((error) => {
-          console.log(error)
+          this.inMsg = error.data.msg
+          this.makeToast(this.inMsg)
+          // console.log(error)
         })
     },
     onReset() {

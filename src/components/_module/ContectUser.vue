@@ -42,7 +42,7 @@
                 <td>{{item.user_updated_at}}</td>
                 <td>
                   <b-button @click="setDataUser(item)" variant="outline">
-                    <b-icon icon="arrow-counterclockwise" variant="success"></b-icon>
+                    <b-icon icon="pencil-square" variant="success"></b-icon>
                   </b-button>|
                   <b-button @click="deleteDataUser(item)" variant="outline">
                     <b-icon icon="trash" variant="danger"></b-icon>

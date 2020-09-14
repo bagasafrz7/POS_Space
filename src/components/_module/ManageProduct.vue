@@ -74,7 +74,7 @@
                 <td>{{item.product_status}}</td>
                 <td>
                   <b-button @click="setProduct(item)" variant="outline">
-                    <b-icon icon="arrow-counterclockwise" variant="success"></b-icon>
+                    <b-icon icon="pencil-square" variant="success"></b-icon>
                   </b-button>|
                   <b-button @click="deleteProduct(item)" variant="outline">
                     <b-icon icon="trash" variant="danger"></b-icon>
