@@ -252,6 +252,8 @@
     box-shadow: -2px 0px 0px 0px rgba(0, 0, 0, 0.11);
     border-top: 1px solid rgb(206, 206, 206);
     padding: 0 10px;
+    overflow: auto;
+    height: 600px;
 }
 
 .content-cart .cartBefore img {
@@ -753,7 +755,7 @@ button.btn.btn-primary.btn-send.btn-secondary:hover {
     }
 
     .main-content {
-        height: 1600px;
+        height: 1500px;
     }
 
     .main-content .search-wrapper input{
@@ -763,17 +765,16 @@ button.btn.btn-primary.btn-send.btn-secondary:hover {
         background: #fff;
         padding: 3px 5px;
         font-size: 14px;
+        width: 150px;
     }
 
     .side-cart {
         position: fixed;
         top: 88%;
-        /* bottom: 0; */
     }
 
     .detail-cart {
         margin: 30px 0 100px 0;
-        /* margin-left: 20px; */
     }
 
     .main-content .main-food img {
@@ -803,17 +804,70 @@ button.btn.btn-primary.btn-send.btn-secondary:hover {
         height: 300px;
     }
 
-    .detail-sidenav {
+    .home .detail-sidenav {
         position: fixed;
-        z-index: 5;
-        bottom: 0;
+        z-index: 4;
+        bottom: -10px;
         width: 100%;
+        height: 125px;
         background: #ffffff;
         padding-left: 40px;
         box-shadow: 0px -5px 5px 0px rgba(0, 0, 0, 0.12);
     }
-    
+    .history .detail-sidenav {
+        position: fixed;
+        z-index: 4;
+        bottom: -10px;
+        width: 100%;
+        height: 125px;
+        background: #ffffff;
+        padding-left: 40px;
+        box-shadow: 0px -5px 5px 0px rgba(0, 0, 0, 0.12);
+    }
+    .history .recent-order {
+        margin-bottom: 200px;
+    }
+    .manage .detail-sidenav {
+        position: fixed;
+        z-index: 4;
+        bottom: -10px;
+        width: 100%;
+        height: 125px;
+        background: #ffffff;
+        padding-left: 40px;
+        box-shadow: 0px -5px 5px 0px rgba(0, 0, 0, 0.12);
+    }
+    .content-cart {
+        height: 600px;
+    }
+    .detail-cart .detail-cekout {
+        margin-top: 5%;
+    }  
     .history .recent-order .table-recent b-table {
         width: 100px;
+    }
+    .history .card-history {
+        display: grid;
+        width: 150px;
+        margin: 0 0;
+        /* background: #e5e5e5; */
+        grid-template-areas:
+          "btn-income"
+          "btn-orders"
+          "btn-years";
+    }
+    .history .btn-income {
+        margin: 20px 0;
+    }
+
+    .history .btn-orders {
+        margin: 20px 0;
+    }
+
+    .history .btn-years {
+        margin: 20px 0;
+    }
+    .main-manage .table-data  {
+        width: 0;
     }
 }

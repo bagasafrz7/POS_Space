@@ -5,26 +5,53 @@
         <b-row>
           <b-col cols="6" md="6" sm="6">
             <h4>Data Category</h4>
-            <b-button squared variant="outline-info" @click="showModal" class="btn-data">
+            <b-button
+              squared
+              variant="outline-info"
+              @click="showModal"
+              class="btn-data"
+            >
               Add Data
               <b-icon icon="file-plus-fill" variant="primary"></b-icon>
             </b-button>
           </b-col>
           <b-col cols="6" md="6" sm="6" class="text-right">
             <div class="btn-sorting">
-              <b-dropdown id="sort" :text="sortText" right variant="primary" class="mb-1 mr-2">
-                <b-dropdown-item-button @click="sorting('category_created_at%20DESC')">Latest</b-dropdown-item-button>
-                <b-dropdown-item-button @click="sorting('category_created_at%20ASC')">Oldest</b-dropdown-item-button>
+              <b-dropdown
+                id="sort"
+                :text="sortText"
+                right
+                variant="primary"
+                class="mb-1 mr-2"
+              >
+                <b-dropdown-item-button
+                  @click="sorting('category_created_at%20DESC')"
+                  >Latest</b-dropdown-item-button
+                >
+                <b-dropdown-item-button
+                  @click="sorting('category_created_at%20ASC')"
+                  >Oldest</b-dropdown-item-button
+                >
                 <b-dropdown-divider></b-dropdown-divider>
                 <b-dropdown-group id="dropdown-group-1" header="Name">
-                  <b-dropdown-item-button @click="sorting('category_name%20ASC')">A-Z</b-dropdown-item-button>
-                  <b-dropdown-item-button @click="sorting('category_name%20DESC')">Z-A</b-dropdown-item-button>
+                  <b-dropdown-item-button
+                    @click="sorting('category_name%20ASC')"
+                    >A-Z</b-dropdown-item-button
+                  >
+                  <b-dropdown-item-button
+                    @click="sorting('category_name%20DESC')"
+                    >Z-A</b-dropdown-item-button
+                  >
                 </b-dropdown-group>
                 <b-dropdown-divider></b-dropdown-divider>
               </b-dropdown>
             </div>
             <div class="search-wrapper">
-              <input type="text" v-model="search" placeholder="Search Category" />
+              <input
+                type="text"
+                v-model="search"
+                placeholder="Search Category"
+              />
             </div>
           </b-col>
         </b-row>
@@ -33,60 +60,75 @@
         <b-toast id="my-toast" variant="success" solid>
           <template v-slot:toast-title>
             <div class="d-flex flex-grow-1 align-items-baseline">
-              <b-img blank blank-color="#ff5555" class="mr-2" width="12" height="12"></b-img>
+              <b-img
+                blank
+                blank-color="#ff5555"
+                class="mr-2"
+                width="12"
+                height="12"
+              ></b-img>
               <strong class="mr-auto">Notice!</strong>
               <small class="text-muted mr-2">42 seconds ago</small>
             </div>
           </template>
-          This is the content of the toast.
-          It is short and to the point.
+          This is the content of the toast. It is short and to the point.
         </b-toast>
-        <div class="table-data">
-          <table class="table table-hover text-center" width="100">
-            <thead>
-              <tr>
-                <th scope="col">Category ID</th>
-                <th scope="col">Category Name</th>
-                <th scope="col">Category Created</th>
-                <th scope="col">Category Updated</th>
-                <th scope="col">Category Status</th>
-                <th scope="col">Action</th>
-              </tr>
-            </thead>
-            <tbody v-for="(item, index) in categorys, filteredList" :key="index">
-              <tr>
-                <th scope="row">{{item.category_id}}</th>
-                <th>{{item.category_name}}</th>
-                <td>{{item.category_created_at}}</td>
-                <td>{{item.category_updated_at}}</td>
-                <td>{{item.category_status}}</td>
-                <td>
-                  <b-button @click="setCategory(item)" variant="outline">
-                    <b-icon icon="pencil-square" variant="success"></b-icon>
-                  </b-button>|
-                  <b-button @click="deleteCategory(item)" variant="outline">
-                    <b-icon icon="trash" variant="danger"></b-icon>
-                  </b-button>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-          <b-row class="my-4">
-            <b-col>
-              <b-pagination
-                class="pagination"
-                v-model="currentPage"
-                :total-rows="totalPage"
-                :per-page="limit"
-                @change="handlePageChange"
-                first-text="First"
-                prev-text="Prev"
-                next-text="Next"
-                last-text="Last"
-              ></b-pagination>
-            </b-col>
-          </b-row>
-        </div>
+        <b-row>
+          <b-col cols="12">
+            <div class="table-data">
+              <table class="table table-hover text-center" width="100">
+                <thead>
+                  <tr>
+                    <th scope="col">Category ID</th>
+                    <th scope="col">Category Name</th>
+                    <th scope="col">Category Created</th>
+                    <th scope="col">Category Updated</th>
+                    <th scope="col">Category Status</th>
+                    <th scope="col">Action</th>
+                  </tr>
+                </thead>
+                <tbody
+                  v-for="(item, index) in (categorys, filteredList)"
+                  :key="index"
+                >
+                  <tr>
+                    <th scope="row">{{ item.category_id }}</th>
+                    <th>{{ item.category_name }}</th>
+                    <td>{{ item.category_created_at }}</td>
+                    <td>{{ item.category_updated_at }}</td>
+                    <td>{{ item.category_status }}</td>
+                    <td>
+                      <b-button @click="setCategory(item)" variant="outline">
+                        <b-icon
+                          icon="pencil-square"
+                          variant="success"
+                        ></b-icon> </b-button
+                      >|
+                      <b-button @click="deleteCategory(item)" variant="outline">
+                        <b-icon icon="trash" variant="danger"></b-icon>
+                      </b-button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+              <b-row class="my-4">
+                <b-col>
+                  <b-pagination
+                    class="pagination"
+                    v-model="currentPage"
+                    :total-rows="totalPage"
+                    :per-page="limit"
+                    @change="handlePageChange"
+                    first-text="First"
+                    prev-text="Prev"
+                    next-text="Next"
+                    last-text="Last"
+                  ></b-pagination>
+                </b-col>
+              </b-row>
+            </div>
+          </b-col>
+        </b-row>
       </b-col>
     </b-row>
     <!-- Modal -->
@@ -121,14 +163,21 @@
                 </select>
               </div>
             </div>
-            <b-button class="mt-3" variant="outline-danger" block @click="hideModal">Cancel</b-button>
+            <b-button
+              class="mt-3"
+              variant="outline-danger"
+              block
+              @click="hideModal"
+              >Cancel</b-button
+            >
             <b-button
               type="submit"
               class="mt-3"
               variant="outline-warning"
               block
               v-show="!isUpdate"
-            >Add</b-button>
+              >Add</b-button
+            >
             <b-button
               type="button"
               class="mt-3"
@@ -136,7 +185,8 @@
               block
               v-show="isUpdate"
               @click="patchCategory()"
-            >Update</b-button>
+              >Update</b-button
+            >
           </form>
         </div>
       </b-modal>
