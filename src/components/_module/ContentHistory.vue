@@ -9,12 +9,10 @@
               Rp
               {{ todayIncome.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.') }}
             </h2>
-            <p>+2% Yesterday</p>
           </div>
           <div class="btn-orders">
             <h5>Orders</h5>
             <h2>{{ ordersWeek }}</h2>
-            <p>+5% Last Week</p>
           </div>
           <div class="btn-years">
             <h5>This Year's Income</h5>
@@ -22,7 +20,6 @@
               Rp
               {{ yearsIncome.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.') }}
             </h2>
-            <p>+10% Last Year</p>
           </div>
         </div>
       </b-col>
@@ -34,67 +31,11 @@
             <b-col cols="6" md="6" sm="6">
               <h2>Revenue</h2>
             </b-col>
-            <b-col cols="6" md="6" sm="6" class="text-right">
-              <b-dropdown
-                id="dropdown-right"
-                right
-                :text="month"
-                class="m-md-2"
-              >
-                <b-dropdown-item @click="getOrdersJanuary()"
-                  >January</b-dropdown-item
-                >
-                <b-dropdown-item @click="getOrdersFebruary()"
-                  >February</b-dropdown-item
-                >
-                <b-dropdown-item @click="getOrdersMarch()"
-                  >March</b-dropdown-item
-                >
-                <b-dropdown-item @click="getOrdersApril()"
-                  >April</b-dropdown-item
-                >
-                <b-dropdown-item @click="getOrdersMay()">May</b-dropdown-item>
-                <b-dropdown-item @click="getOrdersJune()">June</b-dropdown-item>
-                <b-dropdown-item @click="getOrdersJuly()">July</b-dropdown-item>
-                <b-dropdown-item @click="getOrdersAugust()"
-                  >August</b-dropdown-item
-                >
-                <b-dropdown-item @click="getOrdersSeptember()"
-                  >September</b-dropdown-item
-                >
-                <b-dropdown-item @click="getOrdersOctober()"
-                  >October</b-dropdown-item
-                >
-                <b-dropdown-item @click="getOrdersNovember()"
-                  >November</b-dropdown-item
-                >
-                <b-dropdown-item @click="getOrdersDecember()"
-                  >December</b-dropdown-item
-                >
-              </b-dropdown>
-            </b-col>
           </b-row>
           <b-row>
             <b-col cols="12" md="12" sm="12">
-              <line-chart
-                :data="{
-                  '2017-01-01': 9,
-                  '2017-01-02': 6,
-                  '2017-01-03': 8,
-                  '2017-01-03': 13,
-                  '2017-01-04': 10,
-                  '2017-01-05': 15,
-                  '2017-01-06': 1,
-                  '2017-01-07': 5,
-                  '2017-01-08': 8,
-                  '2017-01-09': 13,
-                  '2017-01-10': 15
-                }"
-              ></line-chart>
+              <column-chart :data="chartData"></column-chart>
             </b-col>
-            <!-- <div id="app"> -->
-            <!-- <column-chart :data="[['Sun', 32], ['Mon', 46], ['Tue', 28]]"></column-chart> -->
-            <!-- </div> -->
           </b-row>
         </div>
       </b-col>
@@ -129,6 +70,7 @@
 
 <script>
 import axios from 'axios'
+import { mapActions, mapGetters } from 'vuex'
 export default {
   name: 'ContentHistory',
   data() {
@@ -143,8 +85,16 @@ export default {
       week: [],
       years: [],
       recentOrder: [],
-      items: []
+      items: [],
+      chartFilter: 'month',
+      optionsChart: [
+        { value: 'month', text: 'This Month' },
+        { value: 'year', text: 'This Year' }
+      ]
     }
+  },
+  computed: {
+    ...mapGetters({ chartData: 'chartsData' })
   },
   created() {
     this.getHistoryDays()
@@ -152,8 +102,11 @@ export default {
     this.getHistoryYears()
     // this.getRecentOrder()
     this.getOrdersToday()
+    // this.getMonthlyIncomeData()
+    this.chart()
   },
   methods: {
+    ...mapActions(['chart']),
     getHistoryDays() {
       axios.get(`${process.env.VUE_APP_URL}history/days`).then((response) => {
         this.days = response.data.data
@@ -226,7 +179,7 @@ export default {
             this.$router.push(`?sort-orders=${this.text}`)
           })
           // console.log(this.recentOrder)
-          console.log(this.items)
+          // console.log(this.items)
         })
         .catch((error) => {
           console.log(error)
@@ -280,6 +233,28 @@ export default {
           console.log(error)
         })
     }
+    // getMonthlyIncomeData() {
+    //   const date = new Date().toISOString().slice(0, 10)
+    //   console.log(date)
+    //   axios
+    //     .post(`${process.env.VUE_APP_URL}history/income/month`, { date }, {})
+    //     .then((response) => {
+    //       const monthlyIncomeData = response.data.data
+    //       const jsonData = {}
+    //       monthlyIncomeData.forEach((item) => {
+    //         var columnName = item.date
+    //         if (item.income.length) {
+    //           jsonData[columnName] = item.income[0].daily_income
+    //         } else {
+    //           jsonData[columnName] = 0
+    //         }
+    //       })
+    //       this.chartData = jsonData
+    //     })
+    //     .catch((error) => {
+    //       console.log(error)
+    //     })
+    // }
   }
 }
 </script>

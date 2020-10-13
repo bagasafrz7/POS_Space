@@ -395,7 +395,7 @@
     border: 1px solid rgb(250, 215, 216);
     margin: 0 20px;
     border-radius: 10px;
-    padding: 30px 30px;
+    padding: 40px 30px;
     background: rgb(250, 215, 216);
     background: linear-gradient(
       100deg,
@@ -414,7 +414,7 @@
     border: 1px solid rgb(41, 223, 255);
     margin: 0 20px;
     border-radius: 10px;
-    padding: 30px 30px;
+    padding: 40px 30px;
     background: rgb(41, 223, 255);
     background: linear-gradient(
       100deg,
@@ -431,7 +431,7 @@
     border: 1px solid rgb(219, 195, 236);
     margin: 0 20px;
     border-radius: 10px;
-    padding: 30px 30px;
+    padding: 40px 30px;
     background: rgb(219, 195, 236);
     background: linear-gradient(
       100deg,
@@ -456,8 +456,10 @@
     padding: 20px 0;
     background: #fff;
     border: none;
+    height: 450px;
     border-radius: 10px;
     box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.25);
+    overflow: auto;
 }
 
 /* .detail-cart .detail-number {
