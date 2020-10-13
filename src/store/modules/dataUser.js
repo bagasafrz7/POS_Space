@@ -61,7 +61,7 @@ export default {
     getSearch(state) {
       return state.search
     },
-    getLimit(state) {
+    getLimitUsers(state) {
       return state.limit
     },
     getPage(state) {
@@ -73,7 +73,7 @@ export default {
     getData(state) {
       return state.dataUsers
     },
-    getTotalPage(state) {
+    getTotalPageUsers(state) {
       return state.totalPage
     }
   }

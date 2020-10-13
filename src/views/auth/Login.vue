@@ -13,11 +13,24 @@
           <h3>Welcome</h3>
           <h6>Please login to your account</h6>
           <b-form @submit.prevent="onSubmit" @reset.prevent="onReset">
-            <b-form-group id="input-group-1" label="Email Address:" label-for="input-1">
-              <input type="email" v-model="form.user_email" required placeholder="Input Email" />
+            <b-form-group
+              id="input-group-1"
+              label="Email Address:"
+              label-for="input-1"
+            >
+              <input
+                type="email"
+                v-model="form.user_email"
+                required
+                placeholder="Input Email"
+              />
             </b-form-group>
 
-            <b-form-group id="input-group-1" label="Password:" label-for="input-1">
+            <b-form-group
+              id="input-group-1"
+              label="Password:"
+              label-for="input-1"
+            >
               <input
                 type="password"
                 v-model="form.user_password"
@@ -63,13 +76,25 @@ export default {
       // console.log(this.form)
       this.login(this.form)
         .then((result) => {
-          // console.log(result)
-          this.$router.push('/')
+          this.$swal.fire({
+            position: 'center',
+            icon: 'success',
+            title: result.msg,
+            showConfirmButton: false,
+            timer: 1500
+          })
+          setTimeout(() => {
+            this.$router.push('/')
+          }, 1000)
         })
         .catch((error) => {
-          this.inMsg = error.data.msg
-          this.makeToast(this.inMsg)
-          // console.log(error)
+          this.$swal.fire({
+            position: 'center',
+            icon: 'error',
+            title: error.data.msg,
+            showConfirmButton: false,
+            timer: 1500
+          })
         })
     },
     onReset() {

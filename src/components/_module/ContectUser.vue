@@ -31,19 +31,22 @@
                 <th scope="col">Action</th>
               </tr>
             </thead>
-            <tbody v-for="(item, index) in users, filteredList" :key="index">
+            <tbody v-for="(item, index) in (users, filteredList)" :key="index">
               <tr>
-                <th scope="row">{{item.user_id}}</th>
-                <th>{{item.user_email}}</th>
-                <th>{{item.user_name}}</th>
-                <td>{{item.user_role}}</td>
-                <td>{{item.user_status}}</td>
-                <td>{{item.user_created_at}}</td>
-                <td>{{item.user_updated_at}}</td>
+                <th scope="row">{{ item.user_id }}</th>
+                <th>{{ item.user_email }}</th>
+                <th>{{ item.user_name }}</th>
+                <td>{{ item.user_role }}</td>
+                <td>{{ item.user_status }}</td>
+                <td>{{ item.user_created_at }}</td>
+                <td>{{ item.user_updated_at }}</td>
                 <td>
                   <b-button @click="setDataUser(item)" variant="outline">
-                    <b-icon icon="pencil-square" variant="success"></b-icon>
-                  </b-button>|
+                    <b-icon
+                      icon="pencil-square"
+                      variant="success"
+                    ></b-icon> </b-button
+                  >|
                   <b-button @click="deleteDataUser(item)" variant="outline">
                     <b-icon icon="trash" variant="danger"></b-icon>
                   </b-button>
@@ -56,7 +59,7 @@
               <b-pagination
                 class="pagination"
                 v-model="currentPage"
-                :total-rows="totalPage"
+                :total-rows="totalPageUser"
                 :per-page="limit"
                 @change="handlePageChange"
                 first-text="First"
@@ -101,27 +104,45 @@
             <div class="form-group row">
               <label class="col-sm-2 col-form-label">Name</label>
               <div class="col-sm-10">
-                <input type="text" v-model="form.user_name" required class="form-control" id="name" />
+                <input
+                  type="text"
+                  v-model="form.user_name"
+                  required
+                  class="form-control"
+                  id="name"
+                />
               </div>
             </div>
             <div class="form-group row">
               <label class="col-sm-2 col-form-label">Status</label>
               <div class="col-sm-10">
-                <select id="inputState" class="form-control" v-model="form.user_status" required>
+                <select
+                  id="inputState"
+                  class="form-control"
+                  v-model="form.user_status"
+                  required
+                >
                   <option selected disabled>Category Status</option>
                   <option value="0">Not active</option>
                   <option value="1">Active</option>
                 </select>
               </div>
             </div>
-            <b-button class="mt-3" variant="outline-danger" block @click="hideModal">Cancel</b-button>
+            <b-button
+              class="mt-3"
+              variant="outline-danger"
+              block
+              @click="hideModal"
+              >Cancel</b-button
+            >
             <b-button
               type="submit"
               class="mt-3"
               variant="outline-warning"
               block
               v-show="isUpdate"
-            >Update</b-button>
+              >Update</b-button
+            >
           </form>
         </div>
       </b-modal>
@@ -230,8 +251,8 @@ export default {
   computed: {
     ...mapGetters({
       users: 'getData',
-      totalPage: 'getTotalPage',
-      limit: 'getLimit',
+      totalPageUser: 'getTotalPageUsers',
+      limit: 'getLimitUsers',
       sort: 'getSort',
       search: 'getSearch'
     }),

@@ -7,18 +7,33 @@
             <img alt="Fork logo" src="../../assets/img/icon/fork.png" />
           </router-link>
           <router-link to="/history" class="detail-link">
-            <img alt="Clipboard logo" src="../../assets/img/icon/clipboard.png" />
+            <img
+              alt="Clipboard logo"
+              src="../../assets/img/icon/clipboard.png"
+            />
           </router-link>
           <!-- <router-link to>
             <img alt="Add logo" src="../../assets/img/icon/add.png" @click="showModal" />
           </router-link>-->
-          <router-link to="/manage-product" v-if="user.user_role === 1" class="detail-link">
+          <router-link
+            to="/manage-product"
+            v-if="user.user_role === 1"
+            class="detail-link"
+          >
             <img alt="Add logo" src="../../assets/img/icon/od.png" />
           </router-link>
-          <router-link to="/manage-category" v-if="user.user_role === 1" class="detail-link">
+          <router-link
+            to="/manage-category"
+            v-if="user.user_role === 1"
+            class="detail-link"
+          >
             <img alt="Add logo" src="../../assets/img/icon/category.png" />
           </router-link>
-          <router-link to="/manage-user" v-if="user.user_role === 1" class="detail-link">
+          <router-link
+            to="/manage-user"
+            v-if="user.user_role === 1"
+            class="detail-link"
+          >
             <img alt="Add logo" src="../../assets/img/icon/group.png" />
           </router-link>
           <a class="logout detail-link" @click="$bvModal.show('modal-logout')">
@@ -42,8 +57,12 @@
         <h6>Are You Sure to Quit?</h6>
 
         <template v-slot:modal-footer="{ cancel }">
-          <b-button size="sm" variant="success" @click="handleLogout">OK</b-button>
-          <b-button size="sm" variant="danger" @click="cancel()">Cancel</b-button>
+          <b-button size="sm" variant="success" @click="handleLogout()"
+            >OK</b-button
+          >
+          <b-button size="sm" variant="danger" @click="cancel()"
+            >Cancel</b-button
+          >
         </template>
       </b-modal>
     </div>
@@ -65,7 +84,24 @@ export default {
     ...mapGetters({ user: 'setUser' })
   },
   methods: {
-    ...mapActions({ handleLogout: 'logout' })
+    ...mapActions(['logout']),
+    handleLogout() {
+      this.$swal
+        .fire({
+          title: 'logout account ?',
+          icon: 'warning',
+          showDenyButton: true,
+          showCancelButton: true,
+          confirmButtonText: 'Yes',
+          denyButtonText: 'Cancel'
+        })
+        .then((result) => {
+          if (result.isConfirmed) {
+            this.$swal.fire('See you again!', '', 'success')
+            this.logout()
+          }
+        })
+    }
   }
 }
 </script>

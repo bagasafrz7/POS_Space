@@ -31,9 +31,7 @@ export default ({
             context.commit('setUser', response.data.data)
             localStorage.setItem('token', response.data.data.token)
             resolve(response.data)
-            console.log(response.data.data.msg)
           }).catch(error => {
-            // console.log(error)
             reject(error.response)
           })
       })
