@@ -11,8 +11,8 @@
             <router-link to="/register">Registration</router-link>
           </div>
           <h3>Welcome</h3>
-          <h6>Registration for your account</h6>
-          <b-form @submit.prevent="postUser" @reset.prevent="onReset">
+          <h6 v-fontsize="16">Registration for your account</h6>
+          <b-form @submit.prevent="postUser" @reset.prevent="onResetReg">
             <b-form-group
               id="input-group-1"
               label="Email Address:"
@@ -64,8 +64,11 @@
 
 <script>
 import { mapActions } from 'vuex'
+import mixins from '../../mixins/mixins'
+
 export default {
   name: 'Register',
+  mixins: [mixins],
   data() {
     return {
       inMsg: '',
@@ -73,6 +76,14 @@ export default {
         user_email: '',
         user_password: '',
         user_name: ''
+      }
+    }
+  },
+  directives: {
+    fontsize: {
+      bind: function (el, binding) {
+        // console.log(binding.expression)
+        el.style.fontSize = binding.expression + 'px'
       }
     }
   },
@@ -108,14 +119,14 @@ export default {
             timer: 1500
           })
         })
-    },
-    onReset() {
-      this.form = {
-        user_email: '',
-        user_password: '',
-        user_name: ''
-      }
     }
+    // onReset() {
+    //   this.form = {
+    //     user_email: '',
+    //     user_password: '',
+    //     user_name: ''
+    //   }
+    // }
   }
 }
 </script>

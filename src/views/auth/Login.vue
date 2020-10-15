@@ -11,7 +11,7 @@
             <router-link to="/register">Registration</router-link>
           </div>
           <h3>Welcome</h3>
-          <h6>Please login to your account</h6>
+          <h6 v-fontsize="16">Please login to your account</h6>
           <b-form @submit.prevent="onSubmit" @reset.prevent="onReset">
             <b-form-group
               id="input-group-1"
@@ -51,15 +51,24 @@
 
 <script>
 import { mapActions } from 'vuex'
-
+import mixins from '../../mixins/mixins'
 export default {
   name: 'Login',
+  mixins: [mixins],
   computed: {},
   data() {
     return {
       form: {
         user_email: '',
         user_password: ''
+      }
+    }
+  },
+  directives: {
+    fontsize: {
+      bind: function (el, binding) {
+        // console.log(binding.expression)
+        el.style.fontSize = binding.expression + 'px'
       }
     }
   },
@@ -96,13 +105,13 @@ export default {
             timer: 1500
           })
         })
-    },
-    onReset() {
-      this.form = {
-        user_email: '',
-        user_password: ''
-      }
     }
+    // onReset() {
+    //   this.form = {
+    //     user_email: '',
+    //     user_password: ''
+    //   }
+    // }
   }
 }
 </script>
@@ -141,7 +150,7 @@ export default {
 }
 
 .right-login h6 {
-  font-size: 16px;
+  /* font-size: 16px; */
   color: rgb(117, 116, 116);
   font-weight: normal;
   margin-bottom: 50px;
